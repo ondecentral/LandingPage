@@ -14,14 +14,18 @@ const Navbar: React.FC = () => {
       <Image src="/images/logo.svg" />
       <MenuContainer>
         <MenuItem>
-          <Link to="aboutus">About Us</Link>
+          <Link to="/aboutus">About Us</Link>
         </MenuItem>
         <MenuItem>Products</MenuItem>
         <MenuItem>Whitepaper</MenuItem>
-        <MenuItem>FAQ</MenuItem>
-        <MenuItem>Developers</MenuItem>
+        <MenuItem>
+          <Link to="/faq">FAQ</Link>
+        </MenuItem>
+        <MenuItem>
+          <Link to="/developers">Developers</Link>
+        </MenuItem>
       </MenuContainer>
-      <ButtonWrapper href="https://testnet.luciadex.com" target="__blank">
+      <ButtonWrapper href="https://app.luciaprotocol.com" target="__blank">
         Launch App
       </ButtonWrapper>
     </Container>

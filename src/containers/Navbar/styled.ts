@@ -45,4 +45,8 @@ export const ButtonWrapper = styled.a`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  @media (max-width: 1024px) {
+    height: 37px;
+    width: 120px;
+  }
 `;
