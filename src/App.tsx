@@ -8,13 +8,13 @@ function App(): JSX.Element {
     <Router>
       <GlobalStyles />
       <Navbar />
-      {/* <Routes>
+      <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/chatus" element={<ChatUs />} />
         <Route path="/faq" element={<FAQ />} />
-      </Routes> */}
-      {/* <Footer /> */}
+      </Routes>
+      <Footer />
     </Router>
   );
 }
