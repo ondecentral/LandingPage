@@ -16,10 +16,16 @@ export const Container = styled.div`
   }
   .grid-container {
     padding: 40px;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 20px;
     img {
       border-radius: 30px;
+      width: 100%;
+      height: 100%;
     }
+  }
+  @media (max-width: 820px) {
+    display: none;
   }
 `;

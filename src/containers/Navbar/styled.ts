@@ -50,3 +50,11 @@ export const ButtonWrapper = styled.a`
     width: 120px;
   }
 `;
+
+export const IconWrapper = styled.div`
+  display: none;
+  @media (max-width: 860px) {
+    display: block;
+    cursor: pointer;
+  }
+`;

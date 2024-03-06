@@ -18,4 +18,13 @@ export const Container = styled.div`
   .content {
     width: fit-content;
   }
+  @media (max-width: 480px) {
+    margin: 10px;
+    h1 {
+      font-size: 24px;
+    }
+    p {
+      font-size: 12px;
+    }
+  }
 `;

@@ -27,6 +27,15 @@ export const Container = styled.div`
     );
     border-radius: 40px;
   }
+  @media (max-width: 480px) {
+    padding: 40px 10px 10px 10px;
+    h1 {
+      font-size: 30px;
+    }
+    h2 {
+      font-size: 25px;
+    }
+  }
 `;
 
 export const GridContainer = styled.div`
@@ -58,5 +67,16 @@ export const GridContainer = styled.div`
     left: 50%;
     transform: translate(-50%, 0);
     width: 300px;
+  }
+  @media (max-width: 480px) {
+    display: flex;
+    flex-direction: column;
+    .dfr {
+      padding: 40px;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
   }
 `;

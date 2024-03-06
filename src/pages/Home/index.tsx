@@ -7,12 +7,15 @@ import RoadmapFeature from "./components/Roadmap";
 import PastEvents from "./components/PastEvents";
 import { GlobalContainer } from "style/global";
 import { Container } from "./styled";
+import { isMobile } from "util/device";
 const Home: React.FC = () => {
   return (
     <GlobalContainer>
       <IntroArea />
       <Container>
-        <ArrowIcon height="76px" />
+        <div className="icon-wrapper">
+          <ArrowIcon height={isMobile() ? "38px" : "76px"} />
+        </div>
         <div className="content">
           <h1>
             Pioneering <span style={{ color: "#E99B4D" }}>Innovations</span> in

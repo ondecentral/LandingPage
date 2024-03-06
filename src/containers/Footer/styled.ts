@@ -1,12 +1,11 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Container = styled.div``;
+
+export const DiscoverContainer = styled.div`
   background: url(/images/footer.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
-`;
-
-export const DiscoverContainer = styled.div`
   padding-top: 350px;
 
   text-align: center;
@@ -26,6 +25,21 @@ export const DiscoverContainer = styled.div`
     font-size: 19px;
   }
   padding-bottom: 80px;
+  @media (max-width: 480px) {
+    /* display: none; */
+    padding-top: 170px;
+
+    h1 {
+      font-size: 33px;
+    }
+    h2 {
+      font-size: 20px;
+    }
+    p {
+      font-size: 19px;
+    }
+    padding-bottom: 10px;
+  }
 `;
 
 export const ButtonWrapper = styled.div`
@@ -34,6 +48,9 @@ export const ButtonWrapper = styled.div`
   color: ${({ theme }) => theme.colors.secondaryText};
   font-size: 24px;
   margin-top: 60px;
+  @media (max-width: 480px) {
+    margin-top: 0px;
+  }
 `;
 
 export const FooterContainer = styled.div`
@@ -46,6 +63,11 @@ export const FooterContainer = styled.div`
   display: flex;
   justify-content: center;
   gap: 10rem;
+  @media (max-width: 480px) {
+    flex-direction: column;
+    height: 100%;
+    gap: 3rem;
+  }
 `;
 
 export const LinkWrapper = styled.div`
@@ -67,5 +89,12 @@ export const LinkWrapper = styled.div`
     color: white;
     font-size: 18px;
     margin-top: 20px;
+  }
+  @media (max-width: 480px) {
+    h1 {
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
   }
 `;

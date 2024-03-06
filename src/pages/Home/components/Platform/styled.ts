@@ -18,4 +18,13 @@ export const Container = styled.div`
     padding-top: 40px;
     flex-wrap: wrap;
   }
+  @media (max-width: 480px) {
+    h1 {
+      font-size: 32px;
+    }
+    h2 {
+      font-size: 15px;
+    }
+    padding: 10px;
+  }
 `;

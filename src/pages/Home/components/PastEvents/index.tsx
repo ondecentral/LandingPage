@@ -5,7 +5,7 @@ const PastEvents: React.FC = () => {
   return (
     <Container>
       <h1>Past Events</h1>
-      <p>Lorem</p>
+      {/* <p>Lorem</p> */}
       <div className="grid-container">
         <img src="/images/event2.png" />
         <img src="/images/event1.png" />

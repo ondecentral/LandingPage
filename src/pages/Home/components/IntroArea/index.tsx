@@ -23,12 +23,12 @@ const IntroArea: React.FC = () => {
             <Button height="76px">Get Early Access</Button>
           </ButtonWrapper>
         </TextArea>
-        <div>
+        <div className="intro-image">
           <img src="/images/homeImage1.png" alt="img" />
         </div>
       </WebArea>
       <DexArea>
-        <div>
+        <div className="intro-image">
           <img src="/images/homeImage2.png" alt="img" />
         </div>
         <DexTextArea>

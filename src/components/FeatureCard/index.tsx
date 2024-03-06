@@ -41,4 +41,14 @@ const Container = styled.div`
     font-weight: 400;
     padding-top: 10px;
   }
+  @media (max-width: 480px) {
+    height: 100%;
+    .card-title {
+      font-size: 17px;
+      font-weight: 500;
+    }
+    .card-content {
+      font-size: 12px;
+    }
+  }
 `;

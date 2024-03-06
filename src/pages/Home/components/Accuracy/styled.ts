@@ -13,4 +13,16 @@ export const Container = styled.div`
     font-weight: 500;
     color: ${({ theme }) => theme.colors.secondaryText};
   }
+  @media (max-width: 480px) {
+    margin: 10px;
+    h1 {
+      font-size: 32px;
+    }
+    h2 {
+      font-size: 25px;
+    }
+    .image {
+      width: 100%;
+    }
+  }
 `;

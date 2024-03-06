@@ -62,6 +62,9 @@ const FixedWidthWrapper = styled.div`
   margin: 0 auto;
   padding: 80px 0;
   position: relative;
+  @media (max-width: 860px) {
+    padding: 20px 0;
+  }
 `;
 
 export default GlobalStyle;
