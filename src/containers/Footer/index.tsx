@@ -18,9 +18,14 @@ const Footer: React.FC = () => {
         </h1>
         <h2>Unlock the Future of Finance Today</h2>
         <ButtonWrapper>
-          <Button height="76px" reverted>
-            Get Early Access
-          </Button>
+          <a
+            href="https://app.fractal.id/authorize?client_id=Bx2JQIYq_IwZ8QzlT89n8-VonOKgMKL9ekqgwWGXj2Q&redirect_uri=https%3A%2F%2Fondecentral.com%2F&response_type=code&scope=contact%3Aread%20verification.basic%3Aread%20verification.basic.details%3Aread%20verification.liveness%3Aread%20verification.liveness.details%3Aread"
+            target="__blank"
+          >
+            <Button height="76px" reverted>
+              Get Early Access
+            </Button>
+          </a>
         </ButtonWrapper>
         <p>Available on iOS & Android soon</p>
       </DiscoverContainer>
@@ -29,16 +34,19 @@ const Footer: React.FC = () => {
         <LinkWrapper>
           <h1>Follow</h1>
           <div className="icon-wrapper">
-            <a href="https://linkedin.com" target="__blank">
+            <a
+              href="https://www.linkedin.com/company/luciaprotocol/"
+              target="__blank"
+            >
               <img src="/images/linkedin.png" alt="img" />
             </a>
-            <a href="https://linkedin.com" target="__blank">
+            <a href="https://t.me/+Rn6OhXmqmrJlNmJh" target="__blank">
               <img src="/images/telegram.png" alt="img" />
             </a>
-            <a href="https://linkedin.com" target="__blank">
+            <a href="https://twitter.com/luciaprotocol" target="__blank">
               <img src="/images/twitter.png" alt="img" />
             </a>
-            <a href="https://linkedin.com" target="__blank">
+            <a href="https://discord.gg/2sxPaSAqxg" target="__blank">
               <img src="/images/discord.png" alt="img" />
             </a>
           </div>

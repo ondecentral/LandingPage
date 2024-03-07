@@ -45,4 +45,12 @@ const Container = styled.div`
     font-size: 22px;
     margin-top: 20px;
   }
+  @media (max-width: 480px) {
+    .faq-content {
+      font-size: 15px;
+    }
+    .faq-title {
+      font-size: 25px;
+    }
+  }
 `;

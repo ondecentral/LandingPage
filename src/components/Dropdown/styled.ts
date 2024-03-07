@@ -20,6 +20,7 @@ export const DropdownContent = styled.div`
   padding: 8px;
   display: flex;
   flex-direction: column;
+  background-color: white;
   gap: 7px;
 `;
 
