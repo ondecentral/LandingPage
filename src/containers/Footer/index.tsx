@@ -53,20 +53,45 @@ const Footer: React.FC = () => {
         </LinkWrapper>
         <LinkWrapper>
           <h1>Quick Links</h1>
-          <Link to="/chatus">
+          <Link
+            to="#"
+            onClick={(e) => {
+              window.location.href = "mailto:team@ondecentral.com";
+              e.preventDefault();
+            }}
+          >
             <p>Contact Us</p>
           </Link>
-          <p>Terms & Conditions</p>
-          <p>Privacy Policy</p>
+          <a
+            href="https://docs.google.com/document/d/15jfVn0rwoSLXVBVHHsks1VF_lNgsCTpA/edit?usp=sharing&ouid=104473045400912338254&rtpof=true&sd=true"
+            target="__blank"
+          >
+            <p>Terms & Conditions</p>
+          </a>
+          <a
+            href="https://docs.google.com/document/d/1A0ycmER9YniO6889gNyW2KICHyot8RKP5B0pjQG5wXk/edit?usp=sharing"
+            target="__blank"
+          >
+            <p>Privacy Policy</p>
+          </a>
           <a href="https://docs.luciaprotocol.com" target="__blank">
             <p>Docs</p>
+          </a>
+          <a href="https://medium.com/@lucia-protocol" target="__blank">
+            <p>Articles</p>
           </a>
         </LinkWrapper>
         <LinkWrapper>
           <h1>Follow</h1>
           <p>Sign up to get the latest news and updates</p>
           <div className="foot_link">
-            <Link to="/chatus">
+            <Link
+              to="#"
+              onClick={(e) => {
+                window.location.href = "mailto:social@ondecentral.com";
+                e.preventDefault();
+              }}
+            >
               <Button height="60px">E-Mail</Button>
             </Link>
           </div>

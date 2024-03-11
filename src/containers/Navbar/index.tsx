@@ -34,9 +34,6 @@ const Navbar: React.FC = () => {
               </a>
             </MenuItem>,
             <MenuItem>
-              <Link to="/faq">FAQ</Link>
-            </MenuItem>,
-            <MenuItem>
               <Link to="/developers">Developers</Link>
             </MenuItem>,
           ]}
@@ -61,10 +58,9 @@ const Navbar: React.FC = () => {
           </a>
         </MenuItem>
         <MenuItem>
-          <Link to="/faq">FAQ</Link>
-        </MenuItem>
-        <MenuItem>
-          <Link to="/developers">Developers</Link>
+          <a href="https://docs.luciaprotocol.com/" target="__blank">
+            Developers
+          </a>
         </MenuItem>
       </MenuContainer>
       <ButtonWrapper href="https://app.luciaprotocol.com" target="__blank">

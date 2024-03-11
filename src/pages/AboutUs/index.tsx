@@ -85,16 +85,17 @@ const AboutUs: React.FC = () => {
           <h1>
             About <span className="gradient">Us</span>
           </h1>
-          <p>
+          <p className="about-text">
             Lucia Protocol is a non-custodial lending and borrowing platform
             aimed at providing frictionless credit access to both individuals
-            and startup enterpri- ses. At its core, Lucia stands out for
+            and startup enterprises. At its core, Lucia stands out for
             revolutionizing the financial sector, offering a comprehensive
             credit evaluation process that takes into account a multitude of
             both on-chain and off-chain metrics. This credit availability is
             intended not just for short-term needs but also for operational
-            sustainabili- ty and long-term growth.
+            sustainability and long-term growth.
           </p>
+          <img className="image1" src="/images/aboutus-1.png" alt="img" />
         </div>
         <div className="our-story">
           <div>
@@ -113,6 +114,7 @@ const AboutUs: React.FC = () => {
               together, let's shape the future of blockchain technology.
             </p>
           </div>
+          <img className="image2" src="/images/homeImage4.png" alt="img" />
         </div>
         <div className="meet-team">
           <h1>
@@ -142,7 +144,7 @@ const Container = styled.div`
     padding-bottom: 40px;
   }
   .about-us {
-    max-width: 821px;
+    position: relative;
   }
   .our-story {
     width: 100%;
@@ -166,5 +168,36 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+  }
+  .image1 {
+    position: absolute;
+    right: 40px;
+    top: -80px;
+    width: 400px;
+  }
+  .about-text {
+    max-width: 821px;
+  }
+  @media (max-width: 480px) {
+    padding-inline: 10px;
+    .our-story {
+      padding: 10px;
+      text-align: center;
+    }
+    .about-us {
+      text-align: center;
+    }
+    .image1 {
+      display: none;
+    }
+    .image2 {
+      display: none;
+    }
+    .about-text {
+      max-width: 100%;
+    }
+    .meet-team {
+      text-align: center;
+    }
   }
 `;

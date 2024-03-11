@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Navbar, Footer } from "containers";
-import { Home, AboutUs, ChatUs, FAQ } from "pages";
+import { Home, AboutUs, ChatUs } from "pages";
 import GlobalStyles from "style/global";
 
 function App(): JSX.Element {
@@ -12,7 +12,6 @@ function App(): JSX.Element {
         <Route path="/" element={<Home />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/chatus" element={<ChatUs />} />
-        <Route path="/faq" element={<FAQ />} />
       </Routes>
       <Footer />
     </Router>
