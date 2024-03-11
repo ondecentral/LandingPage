@@ -62,18 +62,12 @@ const Footer: React.FC = () => {
           >
             <p>Contact Us</p>
           </Link>
-          <a
-            href="https://docs.google.com/document/d/15jfVn0rwoSLXVBVHHsks1VF_lNgsCTpA/edit?usp=sharing&ouid=104473045400912338254&rtpof=true&sd=true"
-            target="__blank"
-          >
+          <Link to="/terms-conditions">
             <p>Terms & Conditions</p>
-          </a>
-          <a
-            href="https://docs.google.com/document/d/1A0ycmER9YniO6889gNyW2KICHyot8RKP5B0pjQG5wXk/edit?usp=sharing"
-            target="__blank"
-          >
+          </Link>
+          <Link to="/privacy-policy">
             <p>Privacy Policy</p>
-          </a>
+          </Link>
           <a href="https://docs.luciaprotocol.com" target="__blank">
             <p>Docs</p>
           </a>

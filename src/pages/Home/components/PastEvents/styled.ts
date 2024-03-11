@@ -11,19 +11,52 @@ export const Container = styled.div`
   h1 {
     font-size: 67px;
   }
-  p {
-    font-size: 23px;
+  .image-container {
+    position: relative;
+    height: 600px;
   }
   .grid-container {
+    position: absolute;
+    left: 20px;
+    top: 0;
+    right: 20px;
+    bottom: 0;
+    overflow: auto;
     padding: 40px;
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    display: flex;
     gap: 20px;
+    z-index: 1;
     img {
       border-radius: 30px;
       width: 100%;
-      height: 100%;
+      height: 500px;
+      width: 700px;
     }
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  .icon-wrapper {
+    width: 73px;
+    height: 73px;
+    border-radius: 50%;
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .scroll-button {
+    position: absolute;
+    padding: 20px;
+    z-index: 2;
+    bottom: 50%;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .reverse {
+    transform: rotate(180deg);
   }
   @media (max-width: 820px) {
     display: none;
