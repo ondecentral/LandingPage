@@ -78,8 +78,8 @@ const RoadmapFeature: React.FC = () => {
       <h1 className="gradient">Roadmap</h1>
       <div className="grid-container">
         {roadmaps.map((_roadmap, index) => (
-          <div className="grid-item">
-            <RoadmapCard {..._roadmap} key={index} />
+          <div className="grid-item" key={index}>
+            <RoadmapCard {..._roadmap} />
           </div>
         ))}
       </div>

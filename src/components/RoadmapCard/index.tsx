@@ -12,8 +12,8 @@ const RoadmapCard: React.FC<CardType> = ({ year, stage, contents }) => {
         <div className="roadmap-q">{stage}</div>
       </div>
       <div className="roadmap-content">
-        {contents.map((_content) => (
-          <div key={_content}>•{_content}</div>
+        {contents.map((_content, index) => (
+          <div key={index}>•{_content}</div>
         ))}
       </div>
     </Container>

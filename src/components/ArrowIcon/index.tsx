@@ -16,7 +16,7 @@ const ArrowIcon: React.FC<ButtonProps> = ({ reverted = false, height }) => {
 
 export default ArrowIcon;
 
-const ArrowIconWrapper = styled.button<{ reverted: boolean; height: string }>`
+const ArrowIconWrapper = styled.div<{ reverted: boolean; height: string }>`
   background: ${({ reverted }) => (reverted ? "white" : "#E99B4D")};
   color: ${({ reverted }) => (reverted ? "#E99B4D" : "white")};
   width: ${({ height }) => height};

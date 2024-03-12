@@ -5,6 +5,7 @@ import PlatformFeature from "./components/Platform";
 import ArrowIcon from "components/ArrowIcon";
 import RoadmapFeature from "./components/Roadmap";
 import PastEvents from "./components/PastEvents";
+import News from "./components/News";
 import { GlobalContainer } from "style/global";
 import { Container } from "./styled";
 import { isMobile } from "util/device";
@@ -33,6 +34,7 @@ const Home: React.FC = () => {
       <PlatformFeature />
       <RoadmapFeature />
       <PastEvents />
+      <News />
     </GlobalContainer>
   );
 };
