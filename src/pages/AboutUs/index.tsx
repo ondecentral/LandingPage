@@ -60,7 +60,7 @@ const teams = [
   {
     img: "/images/meng.png",
     name: "Meng Lin",
-    position: "Blockchain Engineer",
+    position: "Director of Blockchain Engineering",
     link: "https://linkedin.com",
   },
   {
