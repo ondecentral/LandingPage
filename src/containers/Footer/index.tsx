@@ -40,13 +40,13 @@ const Footer: React.FC = () => {
             >
               <img src="/images/linkedin.png" alt="img" />
             </a>
-            <a href="https://t.me/+Rn6OhXmqmrJlNmJh" target="__blank">
+            <a href="https://t.me/+RJ_CvBSlfSRkZGE5" target="__blank">
               <img src="/images/telegram.png" alt="img" />
             </a>
             <a href="https://twitter.com/luciaprotocol" target="__blank">
               <img src="/images/twitter.png" alt="img" />
             </a>
-            <a href="https://discord.gg/2sxPaSAqxg" target="__blank">
+            <a href="https://discord.gg/ECuzSyshbv" target="__blank">
               <img src="/images/discord.png" alt="img" />
             </a>
           </div>
