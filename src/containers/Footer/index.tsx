@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
             >
               <img src="/images/linkedin.png" alt="img" />
             </a>
-            <a href="https://t.me/+RJ_CvBSlfSRkZGE5" target="__blank">
+            <a href="https://t.me/+ktxyuIoFAuVhNTMx" target="__blank">
               <img src="/images/telegram.png" alt="img" />
             </a>
             <a href="https://twitter.com/luciaprotocol" target="__blank">
