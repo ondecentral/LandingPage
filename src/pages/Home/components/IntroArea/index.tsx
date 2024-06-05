@@ -13,8 +13,10 @@ const IntroArea: React.FC = () => {
     <Container>
       <WebArea>
         <TextArea>
-          <h1>Web3 Credit Access</h1>
-          <h2>Powered by AI</h2>
+          <div>
+            <h1>Web3 Credit Access</h1>
+            <h2>Powered by AI</h2>
+          </div>
           <p>
             Empowering Dreams.
             <br /> Redefining Credit.

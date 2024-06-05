@@ -16,9 +16,11 @@ export const TextArea = styled.div`
   h1 {
     font-size: 67px;
     font-weight: 500;
+    line-height: 70px;
   }
   h2 {
     font-size: 67px;
+    line-height: 70px;
     font-weight: 700;
     background-image: ${({ theme }) => theme.colors.primaryGradient};
     background-clip: text;
