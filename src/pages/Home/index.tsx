@@ -9,7 +9,14 @@ import News from "./components/News";
 import { GlobalContainer } from "style/global";
 import { Container } from "./styled";
 import { isMobile } from "util/device";
+import LuciaSDK from "luciasdk-t3";
 const Home: React.FC = () => {
+  LuciaSDK.init({
+      clientId: "",
+      baseURL: "http://localhost:3001",
+      api_key: "6c0fe4f1-aad91b16-4089b2f8-fe574215-b7d78d12-b01a1db8-4b0ca8be-a1e84b93",
+    });
+    LuciaSDK.pageView("home")
   return (
     <GlobalContainer>
       <IntroArea />

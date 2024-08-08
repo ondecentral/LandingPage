@@ -8,8 +8,14 @@ import {
   LinkWrapper,
 } from "./styled";
 import { Button } from "components";
+import LuciaSDK from "luciasdk-t3";
 
 const Footer: React.FC = () => {
+  LuciaSDK.init({
+    clientId: "",
+    baseURL: "http://localhost:3001",
+    api_key: "6c0fe4f1-aad91b16-4089b2f8-fe574215-b7d78d12-b01a1db8-4b0ca8be-a1e84b93",
+  });
   return (
     <Container>
       <DiscoverContainer>
@@ -22,7 +28,7 @@ const Footer: React.FC = () => {
             href="https://app.fractal.id/authorize?client_id=Bx2JQIYq_IwZ8QzlT89n8-VonOKgMKL9ekqgwWGXj2Q&redirect_uri=https%3A%2F%2Fondecentral.com%2F&response_type=code&scope=contact%3Aread%20verification.basic%3Aread%20verification.basic.details%3Aread%20verification.liveness%3Aread%20verification.liveness.details%3Aread"
             target="__blank"
           >
-            <Button height="76px" reverted>
+            <Button height="76px" reverted onClick={LuciaSDK.buttonClick("Get Early access")}>
               Get Early Access
             </Button>
           </a>
@@ -37,16 +43,17 @@ const Footer: React.FC = () => {
             <a
               href="https://www.linkedin.com/company/luciaprotocol/"
               target="__blank"
+              onClick={()=>LuciaSDK.buttonClick("Linkedin")}
             >
               <img src="/images/linkedin.png" alt="img" />
             </a>
-            <a href="https://t.me/+ktxyuIoFAuVhNTMx" target="__blank">
+            <a href="https://t.me/+ktxyuIoFAuVhNTMx" target="__blank" onClick={()=>LuciaSDK.buttonClick("Telegram")}>
               <img src="/images/telegram.png" alt="img" />
             </a>
-            <a href="https://twitter.com/luciaprotocol" target="__blank">
+            <a href="https://twitter.com/luciaprotocol" target="__blank" onClick={()=>LuciaSDK.buttonClick("Twitter")}>
               <img src="/images/twitter.png" alt="img" />
             </a>
-            <a href="https://discord.gg/ECuzSyshbv" target="__blank">
+            <a href="https://discord.gg/ECuzSyshbv" target="__blank" onClick={()=>LuciaSDK.buttonClick("Discord")}>
               <img src="/images/discord.png" alt="img" />
             </a>
           </div>
@@ -62,16 +69,16 @@ const Footer: React.FC = () => {
           >
             <p>Contact Us</p>
           </Link>
-          <Link to="/terms-conditions">
+          <Link to="/terms-conditions" onClick={()=>LuciaSDK.buttonClick("Terms and conditions")}>
             <p>Terms & Conditions</p>
           </Link>
-          <Link to="/privacy-policy">
+          <Link to="/privacy-policy" onClick={()=>LuciaSDK.buttonClick("Privacy policy")}>
             <p>Privacy Policy</p>
           </Link>
-          <a href="https://docs.luciaprotocol.com" target="__blank">
+          <a href="https://docs.luciaprotocol.com" target="__blank" onClick={()=>LuciaSDK.buttonClick("Footer - Docs")}>
             <p>Docs</p>
           </a>
-          <a href="https://medium.com/@lucia-protocol" target="__blank">
+          <a href="https://medium.com/@lucia-protocol" target="__blank" onClick={()=>LuciaSDK.buttonClick("Footer - Articles")}>
             <p>Articles</p>
           </a>
         </LinkWrapper>
@@ -82,6 +89,7 @@ const Footer: React.FC = () => {
             <Link
               to="#"
               onClick={(e) => {
+                LuciaSDK.buttonClick("E-Mail")
                 window.location.href = "mailto:social@ondecentral.com";
                 e.preventDefault();
               }}

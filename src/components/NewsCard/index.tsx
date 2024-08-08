@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import LuciaSDK from "luciasdk-t3";
 interface CardType {
   title: string;
   img: string;
@@ -7,12 +8,18 @@ interface CardType {
   link: string;
 }
 const NewsCard: React.FC<CardType> = ({ title, img, content, date, link }) => {
+  LuciaSDK.init({
+    clientId: "",
+    baseURL: "http://localhost:3001",
+    api_key: "6c0fe4f1-aad91b16-4089b2f8-fe574215-b7d78d12-b01a1db8-4b0ca8be-a1e84b93",
+  });
   return (
     <Container
-      //   onClick={(e) => {
-      //     window.location.href = link;
-      //     e.preventDefault();
-      //   }}
+        onClick={(e) => {
+          // window.location.href = link;
+          // e.preventDefault();
+          LuciaSDK.buttonClick(title)
+        }}
       href={link}
       target="__blank"
     >
