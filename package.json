@@ -13,6 +13,8 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "add": "^2.0.6",
+    "dotenv": "^16.4.5",
+    "dotenv-expand": "^11.0.6",
     "framer-motion": "^10.2.5",
     "luciasdk-t3": "^1.1.1",
     "react": "^18.2.0",

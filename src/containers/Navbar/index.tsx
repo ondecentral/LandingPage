@@ -11,10 +11,11 @@ import {
   IconWrapper,
 } from "./styled";
 import LuciaSDK from "luciasdk-t3";
+const api_key : string = process.env.REACT_APP_API_KEY as string;
 LuciaSDK.init({
   clientId: "",
   baseURL: "https://staging.api.clickinsights.xyz/fk",
-  api_key: "a9a1a82d-38847aeb-88e4cf8a-764f7cad-b5646f40-f03315cd-a1d25341-4aec202b",
+  api_key: api_key,
 });
 const Navbar: React.FC = () => {
   const [navOpen, setNavOpen] = useState(false);
