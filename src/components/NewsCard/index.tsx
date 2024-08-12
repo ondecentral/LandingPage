@@ -10,8 +10,8 @@ interface CardType {
 const NewsCard: React.FC<CardType> = ({ title, img, content, date, link }) => {
   LuciaSDK.init({
     clientId: "",
-    baseURL: "http://localhost:3001",
-    api_key: "6c0fe4f1-aad91b16-4089b2f8-fe574215-b7d78d12-b01a1db8-4b0ca8be-a1e84b93",
+    baseURL: "https://staging.api.clickinsights.xyz/fk",
+    api_key: "a9a1a82d-38847aeb-88e4cf8a-764f7cad-b5646f40-f03315cd-a1d25341-4aec202b",
   });
   return (
     <Container
