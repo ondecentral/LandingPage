@@ -1,13 +1,18 @@
 import styled from "styled-components";
 import ArrowIcon from "components/ArrowIcon";
-
+import LuciaSDK from "luciasdk-t3";
+const api_key : string = process.env.REACT_APP_API_KEY as string;
 interface ButtonProps {
   reverted?: boolean;
   children: React.ReactNode;
   onClick?: any;
   height: string;
 }
-
+LuciaSDK.init({
+  clientId: "",
+  baseURL: "https://staging.api.clickinsights.xyz/fk",
+  api_key: api_key,
+});
 const Button: React.FC<ButtonProps> = ({
   reverted = false,
   children,

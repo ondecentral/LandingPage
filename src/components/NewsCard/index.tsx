@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import LuciaSDK from "luciasdk-t3";
+const api_key : string = process.env.REACT_APP_API_KEY as string;
 interface CardType {
   title: string;
   img: string;
@@ -7,12 +9,18 @@ interface CardType {
   link: string;
 }
 const NewsCard: React.FC<CardType> = ({ title, img, content, date, link }) => {
+  LuciaSDK.init({
+    clientId: "",
+    baseURL: "https://staging.api.clickinsights.xyz/fk",
+    api_key: api_key,
+  });
   return (
     <Container
-      //   onClick={(e) => {
-      //     window.location.href = link;
-      //     e.preventDefault();
-      //   }}
+        onClick={(e) => {
+          // window.location.href = link;
+          // e.preventDefault();
+          LuciaSDK.buttonClick(title)
+        }}
       href={link}
       target="__blank"
     >

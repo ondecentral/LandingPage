@@ -7,8 +7,16 @@ import {
   DexArea,
   DexTextArea,
 } from "./styled";
+import LuciaSDK from "luciasdk-t3";
+const api_key : string = process.env.REACT_APP_API_KEY as string;
+
 
 const IntroArea: React.FC = () => {
+  LuciaSDK.init({
+    clientId: "",
+    baseURL: "https://staging.api.clickinsights.xyz/fk",
+    api_key: api_key,
+  });
   return (
     <Container>
       <WebArea>
@@ -26,7 +34,7 @@ const IntroArea: React.FC = () => {
               href="https://app.fractal.id/authorize?client_id=Bx2JQIYq_IwZ8QzlT89n8-VonOKgMKL9ekqgwWGXj2Q&redirect_uri=https%3A%2F%2Fondecentral.com%2F&response_type=code&scope=contact%3Aread%20verification.basic%3Aread%20verification.basic.details%3Aread%20verification.liveness%3Aread%20verification.liveness.details%3Aread"
               target="__blank"
             >
-              <Button height="76px">Get Early Access</Button>
+              <Button height="76px" onClick={LuciaSDK.buttonClick("Early access")}>Get Early Access</Button>
             </a>
           </ButtonWrapper>
         </TextArea>

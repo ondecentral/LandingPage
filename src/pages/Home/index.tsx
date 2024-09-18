@@ -9,7 +9,15 @@ import News from "./components/News";
 import { GlobalContainer } from "style/global";
 import { Container } from "./styled";
 import { isMobile } from "util/device";
+import LuciaSDK from "luciasdk-t3";
+const api_key : string = process.env.REACT_APP_API_KEY as string;
 const Home: React.FC = () => {
+  LuciaSDK.init({
+    clientId: "",
+    baseURL: "https://staging.api.clickinsights.xyz/fk",
+    api_key: api_key,
+  });
+    LuciaSDK.pageView("home")
   return (
     <GlobalContainer>
       <IntroArea />
