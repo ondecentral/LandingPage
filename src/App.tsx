@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Navbar, Footer } from "containers";
 import { Home, AboutUs, ChatUs, TermsConditions, PrivacyPolicy } from "pages";
 import GlobalStyles from "style/global";
+import './tailwind.css';
 
 function App(): JSX.Element {
   return (

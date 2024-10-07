@@ -4,9 +4,9 @@ const BridgeCredit: React.FC = () => {
   return (
     <Container>
       <h1>
-        Bridging Credit with <span className="gradient">Innovation</span>
+        Bridging Credit & Attribution with <span className="gradient">Innovation</span>
       </h1>
-      <h3>Transforming the Collateral Landscape with User-Centric Insights</h3>
+      <h3>Transforming Credit and Ad Attribution with User-Centric, AI-Powered Insights</h3>
       <GridContainer>
         <div className="gradient-background dfr">
           <h2>

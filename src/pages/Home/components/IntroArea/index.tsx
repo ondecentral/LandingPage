@@ -22,12 +22,12 @@ const IntroArea: React.FC = () => {
       <WebArea>
         <TextArea>
           <div>
-            <h1>Web3 Credit Access</h1>
+            <h1>Web3 Credit & Attribution </h1>
             <h2>Powered by AI</h2>
           </div>
           <p>
-            Empowering Dreams.
-            <br /> Redefining Credit.
+            Empowering Growth. 
+            <br /> Redefining Credit and Ad Performance.
           </p>
           <ButtonWrapper>
             <a

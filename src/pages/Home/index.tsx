@@ -1,4 +1,5 @@
 import IntroArea from "./components/IntroArea";
+import FeaturesArea from "./components/Features";
 import BridgeCredit from "./components/Bridge";
 import AccuracyIntegrity from "./components/Accuracy";
 import PlatformFeature from "./components/Platform";
@@ -28,15 +29,14 @@ const Home: React.FC = () => {
         <div className="content">
           <h1>
             Pioneering <span style={{ color: "#E99B4D" }}>Innovations</span> in
-            Decentralized Finance
+            Decentralized Ecosystems
           </h1>
           <p>
-            Lucia Protocol is a revolutionalry lending and borrowing platform
-            that empowers individuals and startup enterprise to obtain credit
-            quickly and easily.
+          Lucia Protocol revolutionizes lending, borrowing, and ad attribution, empowering individuals and startups to obtain credit and optimize ad performance with ease.
           </p>
         </div>
       </Container>
+      <FeaturesArea />
       <BridgeCredit />
       <AccuracyIntegrity />
       <PlatformFeature />
