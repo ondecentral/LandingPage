@@ -36,12 +36,27 @@ export default function Cta() {
             <div className="mx-auto max-w-xs sm:flex sm:max-w-none sm:justify-center">
               <a
                 className="btn group mb-4 w-full bg-gradient-to-t from-orange-600 to-orange-500 bg-[length:100%_100%] bg-[bottom] text-white shadow hover:bg-[length:100%_150%] sm:mb-0 sm:w-auto"
-                href="#0"
+                href="https://ads.clickinsights.xyz/contact"
+                target="_blank"
               >
                 <span className="relative inline-flex items-center">
                   Request Demo{" "}
                   <span className="ml-1 tracking-normal text-orange-300 transition-transform group-hover:translate-x-0.5">
-                    -&gt;
+                    <svg
+                      width={20}
+                      height={20}
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9 18L15 12L9 6"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
                   </span>
                 </span>
               </a>
