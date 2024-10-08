@@ -1,1 +1,1 @@
-{"version":1,"functions":{"/":{},"/reset-password":{},"/signup":{},"/signin":{}}}
+{"version":1,"functions":{"/signin":{},"/":{},"/signup":{},"/reset-password":{}}}

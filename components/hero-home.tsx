@@ -1,11 +1,4 @@
-import Image from "next/image";
 import PageIllustration from "@/components/page-illustration";
-import Avatar01 from "@/public/images/avatar-01.jpg";
-import Avatar02 from "@/public/images/avatar-02.jpg";
-import Avatar03 from "@/public/images/avatar-03.jpg";
-import Avatar04 from "@/public/images/avatar-04.jpg";
-import Avatar05 from "@/public/images/avatar-05.jpg";
-import Avatar06 from "@/public/images/avatar-06.jpg";
 
 export default function HeroHome() {
   return (
@@ -75,7 +68,8 @@ export default function HeroHome() {
                   </a>
                   <a
                     className="btn w-full bg-white text-stone-800 shadow hover:bg-stone-50 sm:ml-4 sm:w-auto"
-                    href="#0"
+                    href="https://ads.clickinsights.xyz"
+                    target="_blank"
                   >
                     Learn More
                   </a>
@@ -96,29 +90,97 @@ export default function HeroHome() {
                 </span>
               </div>
               <div className="font-mono text-gray-500 [&_span]:opacity-0">
+                <span className="animate-[code-1_10s_infinite] text-gray-400">
+                  // terminal
+                </span>
+                <br />
                 <span className="animate-[code-1_10s_infinite] text-gray-200">
-                  npm login
-                </span>{" "}
+                  npm install luciasdk-t3
+                </span>
+                <br />
                 <span className="animate-[code-2_10s_infinite]">
-                  --registry=https://npm.pkg.github.com
-                </span>
-                <br />
-                <span className="animate-[code-3_10s_infinite]">
-                  --scope=@phanatic
-                </span>{" "}
-                <span className="animate-[code-4_10s_infinite]">
-                  Successfully logged-in.
+                  Package successfully installed.
                 </span>
                 <br />
                 <br />
-                <span className="animate-[code-5_10s_infinite] text-gray-200">
-                  npm publish
+                <span className="animate-[code-3_10s_infinite] text-gray-400">
+                  // app.js
+                </span>
+                <br />
+                <span className="animate-[code-3_10s_infinite] text-gray-200 flex flex-inline gap-2">
+                  <div className="text-orange-400">import</div>
+                  <div className="text-green-300">
+                    'lucia.js'
+                  </div>
+                  ;
+                </span>
+                <br />
+                <br />
+                <span className="animate-[code-4_10s_infinite] text-gray-400">
+                  // page.js
+                </span>
+                <br />
+                <span className="animate-[code-4_10s_infinite] text-gray-200 flex flex-inline gap-2">
+                  <div className="text-orange-400">import</div> LuciaSDK
+                  <div className="text-orange-400">from</div>
+                  <div className="text-green-300">
+                    'lucia-t3'
+                  </div>
+                  ;
+                </span>
+                <br />
+                <span className="animate-[code-5_10s_infinite] text-gray-200 flex flex-inline">
+                  {"LuciaSDK"}
+                  <div className="text-orange-400">.</div>
+                  <div className="text-orange-300">init</div>
+                  <div className="text-yellow-400">{"("}</div>
+                  <div className="text-purple-400">{"{"}</div>
+                </span>
+                <br />
+                <span className="animate-[code-6_10s_infinite] text-gray-200 flex flex-inline gap-2">
+                  baseURL:
+                  <div className="text-green-300">
+                    'https://api.clickinsights.xyz'
+                  </div>
+                  ,
                 </span>
                 <br />
                 <span className="animate-[code-6_10s_infinite]">
-                  Package published.
+                  // Get your API Key from https://ads.clickinsights.xyz
+                </span>
+                <br />
+                <span className="animate-[code-6_10s_infinite] text-gray-200 flex flex-inline gap-2">
+                  api_key:
+                  <div className="text-green-300">
+                    'your-api-here'
+                  </div>
+                  ,
+                </span>
+                <br />
+                <span className="animate-[code-5_10s_infinite] text-gray-200 flex flex-inline">
+                  <div className="text-purple-400">{"}"}</div>
+                  <div className="text-yellow-400">
+                    {")"}
+                  </div>
+                  ;
                 </span>
               </div>
+            </div>
+          </div>
+          {/* Read docs button */}
+          <div className="relative mt-8 before:absolute before:inset-0">
+            <div
+              className="mx-auto max-w-xs sm:flex sm:max-w-none sm:justify-center"
+              data-aos="zoom-y-out"
+              data-aos-delay={450}
+            >
+              <a
+                className="btn w-full outline outline-offset-2 outline-2 outline-orange-500 bg-orange-50 text-stone-800 shadow hover:bg-stone-50 sm:ml-4 sm:w-auto"
+                href="https://docs.luciaprotocol.com/"
+                target="_blank"
+              >
+                Read Docs
+              </a>
             </div>
           </div>
         </div>
