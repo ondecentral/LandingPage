@@ -14,7 +14,7 @@ export default function FeaturesPlanet() {
           {/* Section header */}
           <div className="mx-auto max-w-3xl pb-16 text-center md:pb-20">
             <h2 className="text-3xl font-bold text-stone-200 md:text-4xl">
-            Global ad campaign insights in one platform on the blockchain
+              Global ad campaign insights in one platform on the blockchain
             </h2>
           </div>
           {/* Planet */}
@@ -36,36 +36,6 @@ export default function FeaturesPlanet() {
                     height={755}
                     alt="Planet decoration"
                   />
-                  {/* <div>
-                    <Image
-                      className="absolute -left-28 top-16 z-10 animate-[float_4s_ease-in-out_infinite_both] opacity-80 transition-opacity duration-500"
-                      src={PlanetTagImg01}
-                      width={253}
-                      height={56}
-                      alt="Tag 01"
-                    />
-                    <Image
-                      className="absolute left-56 top-7 z-10 animate-[float_4s_ease-in-out_infinite_1s_both] opacity-30 transition-opacity duration-500"
-                      src={PlanetTagImg02}
-                      width={241}
-                      height={56}
-                      alt="Tag 02"
-                    />
-                    <Image
-                      className="absolute -left-20 bottom-24 z-10 animate-[float_4s_ease-in-out_infinite_2s_both] opacity-25 transition-opacity duration-500"
-                      src={PlanetTagImg03}
-                      width={243}
-                      height={56}
-                      alt="Tag 03"
-                    />
-                    <Image
-                      className="absolute bottom-32 left-64 z-10 animate-[float_4s_ease-in-out_infinite_3s_both] opacity-80 transition-opacity duration-500"
-                      src={PlanetTagImg04}
-                      width={251}
-                      height={56}
-                      alt="Tag 04"
-                    />
-                  </div> */}
                 </div>
               </div>
             </div>
@@ -75,109 +45,163 @@ export default function FeaturesPlanet() {
             <article>
               <h3 className="mb-2 flex items-center space-x-2 font-medium text-stone-200">
                 <svg
-                  className="fill-orange-500"
-                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-orange-500"
                   width={16}
                   height={16}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M2 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Zm2-4a4 4 0 0 0-4 4v8a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4H4Zm1 10a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2H5Z" />
+                  <path
+                    d="M12 2L15.6 5.6C18 -0.7 24.7 6 18.4 8.4L22 12L18.4 15.6C16 9.3 9.3 16 15.6 18.4L12 22L8.4 18.4C6 24.7 -0.7 18 5.6 15.6L2 12L5.6 8.4C8 14.7 14.7 8 8.4 5.6L12 2Z"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                 </svg>
                 <span>Seemless Integration</span>
               </h3>
               <p className="text-[15px] text-stone-400">
-              Integration with major social media platforms (e.g. Twitter, Discord, Telegram, LinkedIn, and Google) for comprehensive data collection.
+                Integration with major social media platforms (e.g. Twitter,
+                Discord, Telegram, LinkedIn, and Google) for comprehensive data
+                collection.
               </p>
             </article>
             <article>
-              <h3 className="mb-2 flex items-center space-x-2 font-medium text-gray-200">
+              <h3 className="mb-2 flex items-center space-x-2 font-medium text-stone-200">
                 <svg
-                  className="fill-orange-500"
-                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-orange-500"
                   width={16}
                   height={16}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M14.29 2.614a1 1 0 0 0-1.58-1.228L6.407 9.492l-3.199-3.2a1 1 0 1 0-1.414 1.415l4 4a1 1 0 0 0 1.496-.093l7-9ZM1 14a1 1 0 1 0 0 2h14a1 1 0 1 0 0-2H1Z" />
+                  <path
+                    d="M8 13V17M16 11V17M12 7V17M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V7.8C21 6.11984 21 5.27976 20.673 4.63803C20.3854 4.07354 19.9265 3.6146 19.362 3.32698C18.7202 3 17.8802 3 16.2 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                 </svg>
                 <span>Real-time Metrics</span>
               </h3>
               <p className="text-[15px] text-stone-400">
-              Comprehensive suite of insights derived from SDK, designed to enhance your understanding of user engagement and conversion metrics.
+                Comprehensive suite of insights derived from SDK, designed to
+                enhance your understanding of user engagement and conversion
+                metrics.
               </p>
             </article>
             <article>
-              <h3 className="mb-2 flex items-center space-x-2 font-medium text-gray-200">
+              <h3 className="mb-2 flex items-center space-x-2 font-medium text-stone-200">
                 <svg
-                  className="fill-orange-500"
-                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-orange-500"
                   width={16}
                   height={16}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M2.248 6.285a1 1 0 0 1-1.916-.57A8.014 8.014 0 0 1 5.715.332a1 1 0 0 1 .57 1.916 6.014 6.014 0 0 0-4.037 4.037Z"
-                    opacity=".3"
+                    d="M14 11H8M10 15H8M16 7H8M20 10.5V6.8C20 5.11984 20 4.27976 19.673 3.63803C19.3854 3.07354 18.9265 2.6146 18.362 2.32698C17.7202 2 16.8802 2 15.2 2H8.8C7.11984 2 6.27976 2 5.63803 2.32698C5.07354 2.6146 4.6146 3.07354 4.32698 3.63803C4 4.27976 4 5.11984 4 6.8V17.2C4 18.8802 4 19.7202 4.32698 20.362C4.6146 20.9265 5.07354 21.3854 5.63803 21.673C6.27976 22 7.11984 22 8.8 22H11.5M22 22L20.5 20.5M21.5 18C21.5 19.933 19.933 21.5 18 21.5C16.067 21.5 14.5 19.933 14.5 18C14.5 16.067 16.067 14.5 18 14.5C19.933 14.5 21.5 16.067 21.5 18Z"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   />
-                  <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm0-2a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm1.715-6.752a1 1 0 0 1 .57-1.916 8.014 8.014 0 0 1 5.383 5.383 1 1 0 1 1-1.916.57 6.014 6.014 0 0 0-4.037-4.037Zm4.037 7.467a1 1 0 1 1 1.916.57 8.014 8.014 0 0 1-5.383 5.383 1 1 0 1 1-.57-1.916 6.014 6.014 0 0 0 4.037-4.037Zm-7.467 4.037a1 1 0 1 1-.57 1.916 8.014 8.014 0 0 1-5.383-5.383 1 1 0 1 1 1.916-.57 6.014 6.014 0 0 0 4.037 4.037Z" />
                 </svg>
                 <span>AI-Driven Insights</span>
               </h3>
               <p className="text-[15px] text-stone-400">
-              Leverage AI for deeper understanding and optimization of ad campaigns.
+                Leverage AI for deeper understanding and optimization of ad
+                campaigns.
               </p>
             </article>
             <article>
-              <h3 className="mb-2 flex items-center space-x-2 font-medium text-gray-200">
+              <h3 className="mb-2 flex items-center space-x-2 font-medium text-stone-200">
                 <svg
-                  className="fill-orange-500"
-                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-orange-500"
                   width={16}
                   height={16}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M8 0a1 1 0 0 1 1 1v14a1 1 0 1 1-2 0V1a1 1 0 0 1 1-1Zm6 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1a1 1 0 1 1 0 2h-1a3 3 0 0 1-3-3V4a3 3 0 0 1 3-3h1a1 1 0 1 1 0 2h-1ZM1 1a1 1 0 0 0 0 2h1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 1 0 0 2h1a3 3 0 0 0 3-3V4a3 3 0 0 0-3-3H1Z" />
+                  <path
+                    d="M8.46445 8.46448L4.92893 4.92896M4.92893 19.0711L8.46448 15.5355M15.5355 15.5355L19.0711 19.071M19.0711 4.92891L15.5355 8.46445M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12Z"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                 </svg>
                 <span>24/7 Support</span>
               </h3>
               <p className="text-[15px] text-stone-400">
-                Collect essential insights about how visitors are using your
-                site with in-depth page view metrics like pages, referring
-                sites, and more.
+                Our dedicated support team is available around the clock,
+                ensuring you get the help you need whenever you need it—day or
+                night.
               </p>
             </article>
             <article>
-              <h3 className="mb-2 flex items-center space-x-2 font-medium text-gray-200">
+              <h3 className="mb-2 flex items-center space-x-2 font-medium text-stone-200">
                 <svg
-                  className="fill-orange-500"
-                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-orange-500"
                   width={16}
                   height={16}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M10.284.33a1 1 0 1 0-.574 1.917 6.049 6.049 0 0 1 2.417 1.395A1 1 0 0 0 13.5 2.188 8.034 8.034 0 0 0 10.284.33ZM6.288 2.248A1 1 0 0 0 5.718.33 8.036 8.036 0 0 0 2.5 2.187a1 1 0 0 0 1.372 1.455 6.036 6.036 0 0 1 2.415-1.395ZM1.42 5.401a1 1 0 0 1 .742 1.204 6.025 6.025 0 0 0 0 2.79 1 1 0 0 1-1.946.462 8.026 8.026 0 0 1 0-3.714A1 1 0 0 1 1.421 5.4Zm2.452 6.957A1 1 0 0 0 2.5 13.812a8.036 8.036 0 0 0 3.216 1.857 1 1 0 0 0 .574-1.916 6.044 6.044 0 0 1-2.417-1.395Zm9.668.04a1 1 0 0 1-.041 1.414 8.033 8.033 0 0 1-3.217 1.857 1 1 0 1 1-.571-1.917 6.035 6.035 0 0 0 2.415-1.395 1 1 0 0 1 1.414.042Zm2.242-6.255a1 1 0 1 0-1.946.462 6.03 6.03 0 0 1 0 2.79 1 1 0 1 0 1.946.462 8.022 8.022 0 0 0 0-3.714Z" />
+                  <path
+                    d="M13.5295 8.35186C12.9571 8.75995 12.2566 9 11.5 9C9.567 9 8 7.433 8 5.5C8 3.567 9.567 2 11.5 2C12.753 2 13.8522 2.65842 14.4705 3.64814M6 20.0872H8.61029C8.95063 20.0872 9.28888 20.1277 9.61881 20.2086L12.3769 20.8789C12.9753 21.0247 13.5988 21.0388 14.2035 20.9214L17.253 20.3281C18.0585 20.1712 18.7996 19.7854 19.3803 19.2205L21.5379 17.1217C22.154 16.5234 22.154 15.5524 21.5379 14.9531C20.9832 14.4134 20.1047 14.3527 19.4771 14.8103L16.9626 16.6449C16.6025 16.9081 16.1643 17.0498 15.7137 17.0498H13.2855L14.8311 17.0498C15.7022 17.0498 16.4079 16.3633 16.4079 15.5159V15.2091C16.4079 14.5055 15.9156 13.892 15.2141 13.7219L12.8286 13.1417C12.4404 13.0476 12.0428 13 11.6431 13C10.6783 13 8.93189 13.7988 8.93189 13.7988L6 15.0249M20 6.5C20 8.433 18.433 10 16.5 10C14.567 10 13 8.433 13 6.5C13 4.567 14.567 3 16.5 3C18.433 3 20 4.567 20 6.5ZM2 14.6L2 20.4C2 20.9601 2 21.2401 2.10899 21.454C2.20487 21.6422 2.35785 21.7951 2.54601 21.891C2.75992 22 3.03995 22 3.6 22H4.4C4.96005 22 5.24008 22 5.45399 21.891C5.64215 21.7951 5.79513 21.6422 5.89101 21.454C6 21.2401 6 20.9601 6 20.4V14.6C6 14.0399 6 13.7599 5.89101 13.546C5.79513 13.3578 5.64215 13.2049 5.45399 13.109C5.24008 13 4.96005 13 4.4 13L3.6 13C3.03995 13 2.75992 13 2.54601 13.109C2.35785 13.2049 2.20487 13.3578 2.10899 13.546C2 13.7599 2 14.0399 2 14.6Z"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                 </svg>
-                <span>Blockchain Credit</span>
-                <span className="rounded-full outline outline-orange-400 px-2 text-white text-xs">Coming soon</span>
+                <span>Web3 Credit</span>
+                <div className="rounded-full p-px bg-gradient-to-r from-orange-300 to-orange-500">
+                  <div className="bg-stone-900 rounded-full">
+                    <div className="text-orange-50 text-xs px-1">
+                      Coming soon
+                    </div>
+                  </div>
+                </div>
               </h3>
               <p className="text-[15px] text-stone-400">
-                Collect essential insights about how visitors are using your
-                site with in-depth page view metrics like pages, referring
-                sites, and more.
+                Unlock decentralized credit solutions that leverage blockchain
+                technology, providing fast, secure, and transparent access to
+                financial resources without traditional barriers.
               </p>
             </article>
             <article>
-              <h3 className="mb-2 flex items-center space-x-2 font-medium text-gray-200">
+              <h3 className="mb-2 flex items-center space-x-2 font-medium text-stone-200">
                 <svg
-                  className="fill-orange-500"
-                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-orange-500"
                   width={16}
                   height={16}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M9 1a1 1 0 1 0-2 0v6a1 1 0 0 0 2 0V1ZM4.572 3.08a1 1 0 0 0-1.144-1.64A7.987 7.987 0 0 0 0 8a8 8 0 0 0 16 0c0-2.72-1.36-5.117-3.428-6.56a1 1 0 1 0-1.144 1.64A5.987 5.987 0 0 1 14 8 6 6 0 1 1 2 8a5.987 5.987 0 0 1 2.572-4.92Z" />
+                  <path
+                    d="M5 9.00002V17M9.5 9.00002V17M14.5 9.00002V17M19 9.00002V17M3 18.6L3 19.4C3 19.9601 3 20.2401 3.10899 20.454C3.20487 20.6422 3.35785 20.7952 3.54601 20.891C3.75992 21 4.03995 21 4.6 21H19.4C19.9601 21 20.2401 21 20.454 20.891C20.6422 20.7952 20.7951 20.6422 20.891 20.454C21 20.2401 21 19.9601 21 19.4V18.6C21 18.04 21 17.7599 20.891 17.546C20.7951 17.3579 20.6422 17.2049 20.454 17.109C20.2401 17 19.9601 17 19.4 17H4.6C4.03995 17 3.75992 17 3.54601 17.109C3.35785 17.2049 3.20487 17.3579 3.10899 17.546C3 17.7599 3 18.04 3 18.6ZM11.6529 3.07715L4.25291 4.7216C3.80585 4.82094 3.58232 4.87062 3.41546 4.99082C3.26829 5.09685 3.15273 5.24092 3.08115 5.40759C3 5.59654 3 5.82553 3 6.28349L3 7.40002C3 7.96007 3 8.2401 3.10899 8.45401C3.20487 8.64217 3.35785 8.79515 3.54601 8.89103C3.75992 9.00002 4.03995 9.00002 4.6 9.00002H19.4C19.9601 9.00002 20.2401 9.00002 20.454 8.89103C20.6422 8.79515 20.7951 8.64217 20.891 8.45401C21 8.2401 21 7.96007 21 7.40002V6.2835C21 5.82553 21 5.59655 20.9188 5.40759C20.8473 5.24092 20.7317 5.09685 20.5845 4.99082C20.4177 4.87062 20.1942 4.82094 19.7471 4.7216L12.3471 3.07715C12.2176 3.04837 12.1528 3.03398 12.0874 3.02824C12.0292 3.02314 11.9708 3.02314 11.9126 3.02824C11.8472 3.03398 11.7824 3.04837 11.6529 3.07715Z"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                 </svg>
-                <span>DEX</span>
-                <span className="rounded-full outline outline-orange-400 px-2 text-white text-xs">Coming soon</span>
+                <span>Decentralized Exchange</span>
+                <div className="rounded-full p-px bg-gradient-to-r from-orange-300 to-orange-500">
+                  <div className="bg-stone-900 rounded-full">
+                    <div className="text-orange-50 text-xs px-1">
+                      Coming soon
+                    </div>
+                  </div>
+                </div>
               </h3>
               <p className="text-[15px] text-stone-400">
-                Collect essential insights about how visitors are using your
-                site with in-depth page view metrics like pages, referring
-                sites, and more.
+                Trade assets seamlessly and securely on a decentralized
+                exchange, ensuring full control of your funds with transparent,
+                peer-to-peer transactions powered by blockchain technology.
               </p>
             </article>
           </div>

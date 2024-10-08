@@ -21,7 +21,9 @@ export default function HeroHome() {
               data-aos="zoom-y-out"
             >
               <div className="-mx-0.5 flex justify-center -space-x-3">
-                <span className="rounded-full bg-gradient-to-r from-orange-400 to-orange-600 px-4 text-white">AI model coming soon!</span>
+                <span className="rounded-full bg-gradient-to-r from-orange-400 to-orange-600 px-4 text-white">
+                  AI model coming soon!
+                </span>
               </div>
             </div>
             <h1
@@ -48,12 +50,26 @@ export default function HeroHome() {
                 >
                   <a
                     className="btn group mb-4 w-full bg-gradient-to-r from-orange-400 to-orange-600 bg-[length:100%_100%] bg-[bottom] text-white shadow hover:bg-[length:100%_150%] sm:mb-0 sm:w-auto"
-                    href="#0"
+                    href="https://ads.clickinsights.xyz/contact"
                   >
                     <span className="relative inline-flex items-center">
-                      Start Free Trial{" "}
+                      Request Demo{" "}
                       <span className="ml-1 tracking-normal text-orange-100 transition-transform group-hover:translate-x-0.5">
-                        -&gt;
+                        <svg
+                          width={20}
+                          height={20}
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M9 18L15 12L9 6"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
                       </span>
                     </span>
                   </a>
@@ -76,7 +92,7 @@ export default function HeroHome() {
             <div className="relative aspect-video rounded-2xl bg-stone-900 px-5 py-3 shadow-xl before:pointer-events-none before:absolute before:-inset-5 before:border-y before:[border-image:linear-gradient(to_right,transparent,theme(colors.stone.300/.8),transparent)1] after:absolute after:-inset-5 after:-z-10 after:border-x after:[border-image:linear-gradient(to_bottom,transparent,theme(colors.stone.300/.8),transparent)1]">
               <div className="relative mb-8 flex items-center justify-between before:block before:h-[9px] before:w-[41px] before:bg-[length:16px_9px] before:[background-image:radial-gradient(circle_at_4.5px_4.5px,_theme(colors.stone.600)_4.5px,_transparent_0)] after:w-[41px]">
                 <span className="text-[13px] font-medium text-white">
-                  luciaprotocl.com
+                  luciaprotocol.com
                 </span>
               </div>
               <div className="font-mono text-gray-500 [&_span]:opacity-0">
