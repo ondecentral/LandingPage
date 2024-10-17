@@ -123,8 +123,8 @@ export default function HeroHome() {
                   data-aos="zoom-y-out"
                   data-aos-delay={150}
                 >
-                  Lucia AI <br className="max-lg:hidden" />
-                  <span className="font-light">for Web3 Attribution</span>
+                  Web3 Attribution <br className="max-lg:hidden" />
+                  <span className="font-light">Powered by AI</span>
                 </h1>
                 <div className="mx-auto max-w-3xl">
                   <p

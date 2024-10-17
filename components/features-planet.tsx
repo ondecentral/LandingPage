@@ -178,7 +178,7 @@ export default function FeaturesPlanet() {
             </div>
           </div> */}
           {/* Grid */}
-          <div className="grid overflow-hidden sm:grid-cols-2 lg:grid-cols-3 [&>*]:relative [&>*]:p-6 [&>*]:before:absolute [&>*]:before:[block-size:100vh] [&>*]:before:[inline-size:1px] [&>*]:before:[inset-block-start:0] [&>*]:before:[inset-inline-start:-1px] [&>*]:after:absolute [&>*]:after:[block-size:1px] [&>*]:after:[inline-size:100vw] [&>*]:after:[inset-block-start:-1px] [&>*]:after:[inset-inline-start:0] md:[&>*]:p-10">
+          <div className="grid overflow-hidden sm:grid-cols-2 [&>*]:relative [&>*]:p-6 [&>*]:before:absolute [&>*]:before:[block-size:100vh] [&>*]:before:[inline-size:1px] [&>*]:before:[inset-block-start:0] [&>*]:before:[inset-inline-start:-1px] [&>*]:after:absolute [&>*]:after:[block-size:1px] [&>*]:after:[inline-size:100vw] [&>*]:after:[inset-block-start:-1px] [&>*]:after:[inset-inline-start:0] md:[&>*]:p-10">
             <article>
               <h3 className="mb-2 flex items-center space-x-2 font-medium text-stone-200">
                 <svg
@@ -273,7 +273,7 @@ export default function FeaturesPlanet() {
                 night.
               </p>
             </article>
-            <article>
+            {/* <article>
               <h3 className="mb-2 flex items-center space-x-2 font-medium text-stone-200">
                 <svg
                   className="stroke-stone-400"
@@ -304,8 +304,8 @@ export default function FeaturesPlanet() {
                 technology, providing fast, secure, and transparent access to
                 financial resources without traditional barriers.
               </p>
-            </article>
-            <article>
+            </article> */}
+            {/* <article>
               <h3 className="mb-2 flex items-center space-x-2 font-medium text-stone-200">
                 <svg
                   className="stroke-stone-400"
@@ -335,7 +335,7 @@ export default function FeaturesPlanet() {
                 exchange, ensuring full control of your funds with transparent,
                 peer-to-peer transactions powered by blockchain technology.
               </p>
-            </article>
+            </article> */}
           </div>
         </div>
       </div>
