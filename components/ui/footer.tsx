@@ -98,7 +98,8 @@ export default function Footer({ border = false }: { border?: boolean }) {
               <li>
                 <Link
                   className="text-stone-600 transition hover:text-gray-900"
-                  href="#"
+                  href="https://lucia-protocol.notion.site/Terms-of-Service-1226136c5cc880399dd1c02521aa8226?pvs=25"
+                  target="_blank"
                 >
                   Terms of service
                 </Link>
@@ -106,7 +107,8 @@ export default function Footer({ border = false }: { border?: boolean }) {
               <li>
                 <Link
                   className="text-stone-600 transition hover:text-gray-900"
-                  href="#"
+                  href="https://lucia-protocol.notion.site/Privacy-Policy-1226136c5cc880c4b5dbe12c10042924"
+                  target="_blank"
                 >
                   Privacy policy
                 </Link>
@@ -114,9 +116,9 @@ export default function Footer({ border = false }: { border?: boolean }) {
               <li>
                 <Link
                   className="text-stone-600 transition hover:text-gray-900"
-                  href="mailto: team@ondecentral.com"
+                  href="#"
                 >
-                  Report a vulnerability
+                  Opt-out
                 </Link>
               </li>
             </ul>
