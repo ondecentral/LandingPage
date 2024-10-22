@@ -27,6 +27,20 @@ module.exports = {
         "6xl": ["4rem", { lineHeight: "1", letterSpacing: "-0.037em" }],
         "7xl": ["4.5rem", { lineHeight: "1", letterSpacing: "-0.037em" }],
       },
+      animation: {
+        shine: "shine 5s ease-in-out 500ms infinite",
+      },
+      keyframes: {
+        shine: {
+          "0%": { top: "0", transform: "scaleY(5)", opacity: "0" },
+          "10%": { opacity: ".8" },
+          "20%": { top: "100%", transform: "scaleY(10)", opacity: "0" },
+          "100%": { top: "100%", transform: "scaleY(1)", opacity: "0" },
+        },
+        gradient: {
+          to: { "background-position": "200% center" },
+        },
+      },
       keyframes: {
         "code-1": {
           "0%": { opacity: 0 },
