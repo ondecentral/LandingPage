@@ -21,7 +21,6 @@ export default function HeroHome() {
     backgroundSize: "cover", // Adjust background size
     backgroundPosition: "center", // Adjust position
     backgroundRepeat: "no-repeat", // Ensure it doesn't repeat
-    height: "280vh", // Adjust based on the height you need
   };
 
   // Define the type for the pointer prop
@@ -92,10 +91,10 @@ export default function HeroHome() {
   return (
     <section className="relative" style={sectionStyle}>
       <PageIllustration />
-      <div
-        style={{ position: "relative", height: "280vh", overflow: "hidden", pointerEvents: "auto" }}
+      {/* <div
+        style={{ position: "relative", height: "100vh", overflow: "hidden", pointerEvents: "auto" }}
         onPointerMove={handlePointerMove}
-      >
+      > */}
         {/* 3D Logo Container */}
         {/* <div className="absolute z-1 h-1/5 w-6/12 left-0 top-20">
           <Spline
@@ -276,7 +275,7 @@ export default function HeroHome() {
           </div>
           <LogoSection />
         </div>
-      </div>
+      {/* </div> */}
     </section>
   );
 }
