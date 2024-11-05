@@ -202,7 +202,7 @@ export default function FeaturesPlanet() {
                 Bridging Web2 and Web3 for unified insights across all ecosystems.
               </p>
             </article>
-            <article>
+            {/* <article>
               <h3 className="mb-2 flex items-center space-x-2 font-medium text-stone-200">
                 <svg
                   className="stroke-stone-400"
@@ -224,7 +224,7 @@ export default function FeaturesPlanet() {
               <p className="text-[15px] text-stone-400">
                 Empowering retail and blockchain with intelligent data.
               </p>
-            </article>
+            </article> */}
             <article>
               <h3 className="mb-2 flex items-center space-x-2 font-medium text-stone-200">
                 <svg
