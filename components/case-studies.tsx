@@ -345,10 +345,10 @@ export default function CaseStudies() {
         </div>
 
         {/* Problem 5 */}
-        <div className="bg-stone-100 outline outline-stone-200 rounded-md p-4">
-          <div className="flex items-baseline gap-2.5">
+        {/* <div className="bg-stone-100 outline outline-stone-200 rounded-md p-4">
+          <div className="flex items-baseline gap-2.5"> */}
             {/* Icon */}
-            <svg
+            {/* <svg
               className="fill-current stroke-stone-500 text-transparent"
               width={16}
               height={16}
@@ -366,16 +366,16 @@ export default function CaseStudies() {
             <div className="flex flex-col text-left w-full">
               <span className="text-stone-900 text-lg font-semibold">
                 Textile Manufactuer
-              </span>
-              <span className="text-stone-500 break-words whitespace-normal">
+              </span> */}
+              {/* <span className="text-stone-500 break-words whitespace-normal">
                 A large-scale manufacturer creates a novel process where instead
                 of using plastic materials, they use biodegradable PLA
                 (poly-lactic acid) to be used fashion forward apparel. This
-                company has several workstreams
-              </span>
-            </div>
-          </div>
-        </div>
+                company has several workstreams */}
+              {/* </span> */}
+            {/* </div> */}
+          {/* </div> */}
+        {/* </div> */}
       </div>
       <div className="flex justify-center mt-10">
         <a
