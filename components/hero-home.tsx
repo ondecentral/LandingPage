@@ -4,7 +4,7 @@ import PageIllustration from "@/components/page-illustration";
 import BusinessCategories from "@/components/business-categories";
 import LogoSection from "@/components/logoSection";
 
-import { Suspense, useRef, useState } from "react";
+import { Suspense, useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from 'three'; // Import Three.js types
@@ -14,6 +14,7 @@ import Spline from '@splinetool/react-spline';
 
 
 export default function HeroHome() {
+  const [content, setContent] = useState<string>("");
   const [pointer, setPointer] = useState({ x: 0, y: 0 });
 
   const sectionStyle = {
@@ -88,6 +89,11 @@ export default function HeroHome() {
     );
   };
 
+  useEffect(() => {
+    // This effect will run only on the client-side after component mounts
+    setContent("Web3 Attribution");
+  }, []);
+
   return (
     <section className="relative" style={sectionStyle}>
       <PageIllustration />
@@ -122,7 +128,7 @@ export default function HeroHome() {
                   data-aos="zoom-y-out"
                   data-aos-delay={150}
                 >
-                  Web3 Attribution <br className="max-lg:hidden" />
+                  {content}<br className="max-lg:hidden" />
                   <span className="font-light">Powered by AI</span>
                 </h1>
                 <div className="mx-auto max-w-3xl">
