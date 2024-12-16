@@ -1,0 +1,163 @@
+name: github action test - Deploy to EC2
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
+    
+    steps:
+
+    # Install Docker Compose
+    - name: Install Docker Compose
+      run: |
+        sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+        docker-compose --version
+
+    - name: Stop and Remove All Running Containers
+      run: |
+        docker ps -q | xargs --no-run-if-empty docker stop
+        docker ps -aq | xargs --no-run-if-empty docker rm
+
+    - name: Clone backend repository
+      run: |
+        git clone https://devT999:${{ secrets.GH_PAT }}@github.com/ondecentral/fk-backend.git
+        cd github-action-backend
+        git checkout ${{ github.ref_name }}
+
+    - name: Build and run backend Docker container
+      env:
+        DB_NAME: ${{ vars.DB_NAME }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_PORT: ${{ vars.DB_PORT }}
+        NODE_PORT: ${{ vars.NODE_PORT }}
+        GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+        GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+        GOOGLE_OAUTH_REDIRECT: ${{ secrets.GOOGLE_OAUTH_REDIRECT }}
+        JWT_TOKEN_EXPIRY_MIN: ${{ secrets.JWT_TOKEN_EXPIRY_MIN }}
+        TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+        HASH_COST: ${{ secrets.HASH_COST }}
+        EMAIL: ${{ secrets.EMAIL }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+        SMTP_HOST: ${{ secrets.SMTP_HOST }}
+        GDPR_ENCRYPTION_KEY: ${{ secrets.GDPR_ENCRYPTION_KEY }}
+        GDPR_ENCRYPTION_IV: ${{ secrets.GDPR_ENCRYPTION_IV }}
+        NODE_ENV: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
+      run: |
+        cd github-action-backend
+        if lsof -i:3002; then
+          lsof -i:3002 | awk 'NR>1 {print $2}' | xargs kill -9 || true
+        fi
+        # docker-compose up -d --build
+        docker-compose -f docker-compose.yml up -d --build
+        # Alternatively, if you don't use docker-compose, you can run the backend container directly:
+        # docker build -t backend .
+        # docker run -d -p ${{vars.DB_PORT}}:${{vars.DB_PORT}} postgres_db
+        # docker run -d -p ${{vars.NODE_PORT}}:${{vars.NODE_PORT}} api
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+    
+    - name: Install frontend dependencies
+      run: npm ci
+
+    - name: Set environment variables
+      id: set_env_vars
+      run: |
+        echo "NODE_ENV=${{ github.ref_name == 'main' && 'production' || 'staging' }}" >> $GITHUB_ENV
+
+    - name: Build frontend project
+      run: |
+        npm run build
+
+    - name: Install Playwright Browsers
+      run: |
+        if ! npm list playwright; then
+          echo "Playwright is not installed, installing Playwright..."
+          npm install playwright
+        fi
+        npx playwright install
+        
+    - name: Run Playwright tests for frontend
+      run: |
+        npm start &
+        SERVER_PID=$!
+        echo "Waiting for the server to start..."
+        # Wait for the server to be ready (replace the curl URL with your app's health check or main endpoint)
+        until curl -s http://localhost:3000 > /dev/null; do
+          sleep 1
+        done
+        echo "Server is up. Running Playwright tests..."
+        npm run test:bot  # Replace with your Playwright test command
+        # Kill the server after tests complete
+        kill $SERVER_PID
+
+    - name: Deploy to EC2
+      if: success()  # Only run deploy if tests pass
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+        SSH_HOST: ${{ vars.EC2_HOST }}
+        SSH_USERNAME: ${{ secrets.EC2_USER }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+        if [[ "${{ github.ref_name }}" == "main" ]]; then
+          PRJ_DIR="/var/www/adAttr-frontend-production"
+          PORT="3001"
+        else
+          PRJ_DIR="/var/www/adAttr-frontend-staging"
+          PORT="3000"
+        fi
+
+        echo "Deploying to $PRJ_DIR on EC2"
+
+        # Ensure Node.js and pm2 are installed only if not present
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "$SSH_USERNAME@$SSH_HOST" "
+            if ! command -v node > /dev/null; then
+              echo 'Node.js not found. Installing Node.js...' && \
+              curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && \
+              sudo apt-get install -y nodejs
+            else
+              echo 'Node.js is already installed.'
+            fi
+
+            if ! command -v pm2 > /dev/null; then
+              echo 'pm2 not found. Installing pm2...' && \
+              sudo npm install -g pm2
+            else
+              echo 'pm2 is already installed.'
+            fi
+          "
+
+        # Create the environment directory and ensure correct ownership
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "$SSH_USERNAME@$SSH_HOST" "
+          sudo mkdir -p $PRJ_DIR && \
+          sudo chown -R $SSH_USERNAME:$SSH_USERNAME $PRJ_DIR
+        "
+
+        # Upload built files to the EC2 instance
+        scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r .next package.json public "$SSH_USERNAME@$SSH_HOST:$PRJ_DIR"
+
+        # Start or restart the application using PM2
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "$SSH_USERNAME@$SSH_HOST" << EOF
+          cd $PRJ_DIR
+          echo "Installing dependencies and starting the app"
+          npm install --production
+          pm2 stop $PRJ_DIR || true
+          pm2 start npm --name $PRJ_DIR -- start -- -p $PORT
+          pm2 save
+        EOF
