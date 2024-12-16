@@ -27,7 +27,7 @@ jobs:
 
     - name: Clone backend repository
       run: |
-        git clone https://devT999:${{ secrets.GH_PAT }}@github.com/ondecentral/fk-backend.git
+        git clone https://DevT999:${{ secrets.GH_PAT }}@github.com/ondecentral/fk-backend.git
         cd github-action-backend
         git checkout ${{ github.ref_name }}
 
