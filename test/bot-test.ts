@@ -1,38 +1,69 @@
 const { chromium } = require('playwright');
 
-(async () => {
-  const browser = await chromium.launch({
-    headless: true, // Explicitly launch in headless mode (background)
-  });
-  const context = await browser.newContext();
-  const page = await context.newPage();
+const runBotTests = async () => {
+  const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/api`;
+  const greenLight: string = "\x1b[32m✔\x1b[0m"; // Green checkmark
+  const redLight: string = "\x1b[31m✘\x1b[0m"; // Red cross
+  let allTestsPassed: boolean = true;
+  const token = process.env.TOKEN
+  const bots = 3
+
+  const logResult = (testName: string, passed: boolean): void => {
+    console.log(`${passed ? greenLight : redLight} ${testName}`);
+    if (!passed) allTestsPassed = false;
+  };
+  function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
   try {
-    console.log("Starting bot test...");
+    console.log("Running bot tests...");
+    // Step 1: Bot Testing
+    const runBotTests = async (token: string): Promise<any[]> => {
+      for (let i = 0; i < bots; i++) {
+        const browser = await chromium.launch({ headless: true });
+        const context = await browser.newContext({
+          userAgent: `Bot-${i}`,
+        });
+        const page = await context.newPage();
+        await page.goto('http://localhost:3000', { waitUntil: 'networkidle' });
+        // const firstButton = page.locator('button').first();
+        // await firstButton.waitFor({ state: 'attached' });
+        console.log(`Bot-${i} visited.`);
+        await browser.close();
+      }
 
-    // Navigate to your app
-    await page.goto('http://localhost:3000', { waitUntil: 'networkidle' });
-    // Example test: Check if a button is present and clickable
-    const firstButton = page.locator('button').first();
-    await firstButton.waitFor({ state: 'attached' });
-    console.log("Button is visible and clickable.");
+      await sleep(3000);
+      const response = await fetch(`${apiUrl}/dashboard/fingerprints`, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      return await response.json();
+    };
 
-    const result = await fetch("http://localhost:3002/api/dashboard/fingerprints")
-    .then(async res => await res.json())
-    .catch(error => {
-      console.log("error", error);
-      return null;
-      process.exit(1); // Failure exit code
-    })
-    console.log(result);
-    if(result)
-      process.exit(0); // Success exit code
-    console.error("Bot test failed")
+    const fingerprints = await runBotTests(token as string);
+    logResult("Test: fingerprints length validation, fingerprints: " + fingerprints.length, fingerprints.length >= 3);
+    if(fingerprints.length < bots) {
+      process.exit(1);
+    }
+
+    // Step : Validate Fingerprints
+    const validateFingerprints = (fingerprints: any[]): boolean => {
+      return fingerprints.every((el) => el.lucia_user_id === fingerprints[0].lucia_user_id);
+    };
+
+    const fingerprintValidationPassed: boolean = validateFingerprints(fingerprints);
+    logResult("Test: fingerprint consistency test", fingerprintValidationPassed);
+    if (!fingerprintValidationPassed) throw new Error("Fingerprints are inconsistent");
+
+    // All tests passed
+    if (allTestsPassed) {
+      console.log(`${greenLight} All tests passed!`);
+    }
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    console.error(`${redLight} Test suite failed: ${errorMessage}`);
     process.exit(1);
-  } catch (error: any) {
-    console.error("Bot test failed:", error.message);
-    process.exit(2); // Failure exit code
-  } finally {
-    await browser.close();
   }
-})();
+};
+
+runBotTests();
