@@ -20,7 +20,7 @@ const genApiKey = async () => {
     })).json();
 
     if (!keyResponse) {
-      console.error(`${redLight} Ken gen failed`);
+      console.error(`${redLight} Key gen failed`);
       process.exit(1);
     }
     // console.log(keyResponse);
