@@ -33,8 +33,8 @@ jobs:
         echo "$SSH_GIT_PRIVATE_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         #git clone https://${{ vars.GH_USERNAME }}:${{ secrets.GH_PAT }}@github.com/${{ vars.GH_BACKEND_OWNER }}/${{ vars.REPO_NAME }}.git
-        git clone git@github.com:ondecentral/fk-backend.git
-        cd fk-backend
+        git clone git@github.com:${{ vars.GH_BACKEND_OWNER }}/${{ vars.REPO_NAME }}.git
+        cd ${{ vars.REPO_NAME }}
         git checkout ${{ github.ref_name }}
 
     - name: Build and run backend Docker container
@@ -57,7 +57,9 @@ jobs:
         GDPR_ENCRYPTION_IV: ${{ secrets.GDPR_ENCRYPTION_IV }}
         NODE_ENV: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
       run: |
-        cd fk-backend
+        cd ${{ vars.REPO_NAME }}
+        # Setup environment variables
+        echo "${{ secrets.BACKEND_ENVFILE }}" > .env
         if lsof -i:${{ vars.NODE_PORT }}; then
           lsof -i:${{ vars.NODE_PORT }} | awk 'NR>1 {print $2}' | xargs kill -9 || true
         fi

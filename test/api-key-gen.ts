@@ -24,7 +24,7 @@ const genApiKey = async () => {
       process.exit(1);
     }
     // console.log(keyResponse);
-    // console.log(`${greenLight} Ken gen success`);
+    // console.log(`${greenLight} Key gen success`);
     console.log(keyResponse?.key);
     // process.stdout.write(keyResponse?.key);
   } catch (error: unknown) {

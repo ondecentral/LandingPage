@@ -26,7 +26,7 @@ const runBotTests = async () => {
           userAgent: `Bot-${i}`,
         });
         const page = await context.newPage();
-        await page.goto('http://localhost:3000', { waitUntil: 'networkidle' });
+        await page.goto('http://localhost:3000');
         // const firstButton = page.locator('button').first();
         // await firstButton.waitFor({ state: 'attached' });
         console.log(`Bot-${i} visited.`);
