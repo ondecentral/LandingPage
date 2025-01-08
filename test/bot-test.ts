@@ -1,4 +1,6 @@
 const { chromium } = require('playwright');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const runBotTests = async () => {
   const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/api`;
@@ -26,7 +28,7 @@ const runBotTests = async () => {
           userAgent: `Bot-${i}`,
         });
         const page = await context.newPage();
-        await page.goto('http://localhost:3000');
+        await page.goto('http://localhost:3000', { waitUntil: 'networkidle' });
         // const firstButton = page.locator('button').first();
         // await firstButton.waitFor({ state: 'attached' });
         console.log(`Bot-${i} visited.`);
