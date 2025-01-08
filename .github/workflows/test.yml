@@ -4,7 +4,11 @@ on:
   push:
     branches:
       - develop
-      - main
+      - feat/bot-test
+  pull_request:
+    branches:
+      - develop
+  workflow_dispatch: # Allow manual runs
 
 jobs:
   deploy:
