@@ -39,7 +39,7 @@ jobs:
         # git clone https://${{ vars.GH_USERNAME }}:${{ secrets.GH_PAT }}@github.com/${{ vars.GH_BACKEND_OWNER }}/${{ vars.REPO_NAME }}.git
         git clone git@github.com:ondecentral/fk-backend.git
         cd fk-backend
-        # git checkout ${{ github.ref_name }}
+        git checkout develop # ${{ github.ref_name }}
 
     - name: Build and run backend Docker container
       env:
