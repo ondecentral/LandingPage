@@ -61,7 +61,7 @@ jobs:
           - 3002:3002
         credentials:
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GH_PAT_CLASSIC }}
 
     steps:
     - name: Checkout code
