@@ -8,72 +8,62 @@ on:
   pull_request:
     branches:
       - develop
-  workflow_dispatch: # Allow manual runs
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Tag for fk-backend service images  (e.g., latest, staging, test)"
+        required: false
+        default: staging
+      build_tag:
+        description: "Tag for test image to build (e.g., test, branch-name)"
+        required: false
 
 jobs:
-  deploy:
+  bot-test:
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
     
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+          POSTGRES_INITDB_ARGS: --no-sync
+        ports:
+          - 5432:5432
+
+      api:
+        image: ghcr.io/ondecentral/${{ vars.REPO_NAME }}:${{ inputs.backend_tag || 'test' }}
+        # TODO: when https://github.com/ondecentral/fk-backend/pull/70 is merged and released, the following image is to be used
+        # image: ghcr.io/ondecentral/fk-backend:${{ inputs.backend_tag || (github.event.pull_request.base.ref == 'main' && 'latest') || inputs.image_tag || 'staging' }}
+        env:
+          DB_HOST: postgres
+          DB_PORT: 5432
+          DB_USERNAME: postgres
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          NODE_ENV: test
+          NODE_PORT: 3002
+          NODE_TYPE: dashboard
+          JWT_TOKEN_EXPIRY_MIN: 1h
+          TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_OAUTH_REDIRECT: ${{ secrets.GOOGLE_OAUTH_REDIRECT }}
+          GDPR_ENCRYPTION_KEY: ${{ secrets.GDPR_ENCRYPTION_KEY }}
+          GDPR_ENCRYPTION_IV: ${{ secrets.GDPR_ENCRYPTION_IV }}
+          HASH_COST: 10
+          EMAIL: ${{ secrets.EMAIL }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+        ports:
+          - 3002:3002
+        credentials:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
-
-    # Install Docker Compose
-    - name: Install Docker Compose
-      run: |
-        sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-        sudo chmod +x /usr/local/bin/docker-compose
-        docker-compose --version
-
-    - name: Stop and Remove All Running Containers
-      run: |
-        docker ps -q | xargs --no-run-if-empty docker stop
-        docker ps -aq | xargs --no-run-if-empty docker rm
-
-    - name: Clone backend repository
-      env:
-        SSH_GIT_PRIVATE_KEY: ${{ secrets.GIT_SSH_KEY }}
-      run: |
-        mkdir -p ~/.ssh
-        echo "$SSH_GIT_PRIVATE_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        # git clone https://${{ vars.GH_USERNAME }}:${{ secrets.GH_PAT }}@github.com/${{ vars.GH_BACKEND_OWNER }}/${{ vars.REPO_NAME }}.git
-        git clone git@github.com:${{ vars.GH_BACKEND_OWNER }}/${{ vars.REPO_NAME }}.git
-        cd ${{ vars.REPO_NAME }}
-        git checkout feature/test-jest # ${{ github.ref_name }}
-
-    - name: Build and run backend Docker container
-      env:
-        DB_NAME: ${{ vars.DB_NAME }}
-        DB_USERNAME: ${{ secrets.DB_USERNAME }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DB_PORT: ${{ vars.DB_PORT }}
-        NODE_PORT: ${{ vars.NODE_PORT }}
-        GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
-        GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
-        GOOGLE_OAUTH_REDIRECT: ${{ secrets.GOOGLE_OAUTH_REDIRECT }}
-        JWT_TOKEN_EXPIRY_MIN: ${{ secrets.JWT_TOKEN_EXPIRY_MIN }}
-        TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
-        HASH_COST: ${{ secrets.HASH_COST }}
-        EMAIL: ${{ secrets.EMAIL }}
-        PASSWORD: ${{ secrets.PASSWORD }}
-        SMTP_HOST: ${{ secrets.SMTP_HOST }}
-        GDPR_ENCRYPTION_KEY: ${{ secrets.GDPR_ENCRYPTION_KEY }}
-        GDPR_ENCRYPTION_IV: ${{ secrets.GDPR_ENCRYPTION_IV }}
-        NODE_ENV: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
-      run: |
-        cd ${{ vars.REPO_NAME }}
-        # Setup environment variables
-        echo "${{ secrets.BACKEND_ENVFILE }}" > .env
-        if lsof -i:${{ vars.NODE_PORT }}; then
-          lsof -i:${{ vars.NODE_PORT }} | awk 'NR>1 {print $2}' | xargs kill -9 || true
-        fi
-        # docker-compose up -d --build
-        docker-compose -f docker-compose.yml up -d --build
-        # Alternatively, if you don't use docker-compose, you can run the backend container directly:
-        # docker build -t backend .
-        # docker run -d -p ${{vars.DB_PORT}}:${{vars.DB_PORT}} postgres_db
-        # docker run -d -p ${{vars.NODE_PORT}}:${{vars.NODE_PORT}} api
-
     - name: Checkout code
       uses: actions/checkout@v4
 
@@ -81,7 +71,23 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 18
-    
+
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        until pg_isready -h localhost -p 5432; do
+          echo "Waiting for PostgreSQL..."
+          sleep 5
+        done
+        echo "PostgreSQL is ready."
+      
+    - name: Check backend service accessibility
+      run: |
+        until curl -s http://localhost:3002; do
+          echo "Waiting for backend service to be accessible..."
+          sleep 5
+        done
+        echo "Backend service is accessible."
+        
     - name: Install frontend dependencies
       run: npm ci
 
@@ -108,25 +114,23 @@ jobs:
         
     - name: Run authenticate to get token
       run: |
-        echo "Creating user and logging in..."
+        # echo "TOKEN=$(npx ts-node test/authenticate.ts)" >> $GITHUB_ENV
         TOKEN=$(npx ts-node test/authenticate.ts)
-        echo "TOKEN=$TOKEN" >> $GITHUB_ENV
-        echo "TOKEN: $TOKEN"
         if [ -z "$TOKEN" ]; then
-          echo "Failed to retrieve token"
+          echo "Failed to generate TOKEN"
           exit 1
         fi
+        echo "TOKEN=$TOKEN" >> $GITHUB_ENV
 
     - name: Run api-key-gen to get api key
       run: |
-        echo "Generating an api key..."
+        # echo "NEXT_PUBLIC_API_KEY=$(npx ts-node test/api-key-gen.ts)" >> $GITHUB_ENV
         NEXT_PUBLIC_API_KEY=$(npx ts-node test/api-key-gen.ts)
-        echo "NEXT_PUBLIC_API_KEY=$NEXT_PUBLIC_API_KEY" >> $GITHUB_ENV
-        echo "Generated API key: $NEXT_PUBLIC_API_KEY"
         if [ -z "$NEXT_PUBLIC_API_KEY" ]; then
-          echo "Failed to generate a key"
+          echo "Failed to generate API key"
           exit 1
         fi
+        echo "NEXT_PUBLIC_API_KEY=$NEXT_PUBLIC_API_KEY" >> $GITHUB_ENV
       env:
         TOKEN: ${{ env.TOKEN }}
 
@@ -137,7 +141,7 @@ jobs:
         echo "Waiting for the server to start..."
         # Wait for the server to be ready (replace the curl URL with your app's health check or main endpoint)
         until curl -s http://localhost:3000 > /dev/null; do
-          sleep 1
+          sleep 5
         done
         echo "Server is up. Running Playwright tests..."
         npm run test:bot  # Replace with your Playwright test command
@@ -145,9 +149,14 @@ jobs:
         kill $SERVER_PID
       env:
         NEXT_PUBLIC_API_KEY: ${{ env.NEXT_PUBLIC_API_KEY }}
-        NEXT_PUBLIC_BASE_URL: "http://localhost:${{vars.NODE_PORT}}"
+        NEXT_PUBLIC_BASE_URL: "localhost:${{vars.NODE_PORT}}"
         NEXT_PUBLIC_CLIENT_ID: 3
+  deploy:
+    needs: bot-test
+    runs-on: ubuntu-latest
+    environment: test
 
+    steps:
     - name: Deploy to EC2
       if: success()  # Only run deploy if tests pass
       env:

@@ -3,11 +3,9 @@ const genApiKey = async () => {
   const greenLight: string = "\x1b[32m✔\x1b[0m"; // Green checkmark
   const redLight: string = "\x1b[31m✘\x1b[0m"; // Red cross
   const token = process.env.TOKEN
-
   const logResult = (testName: string, passed: boolean): void => {
     console.log(`${passed ? greenLight : redLight} ${testName}`);
   };
-
   try {
     // console.log("Generating api key...");
     // Step 1: Generating api key
@@ -23,9 +21,8 @@ const genApiKey = async () => {
       console.error(`${redLight} Key gen failed`);
       process.exit(1);
     }
-    // console.log(keyResponse);
-    // console.log(`${greenLight} Key gen success`);
     console.log(keyResponse?.key);
+    return keyResponse?.key;
     // process.stdout.write(keyResponse?.key);
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error";

@@ -133,7 +133,7 @@ jobs:
         echo "Waiting for the server to start..."
         # Wait for the server to be ready (replace the curl URL with your app's health check or main endpoint)
         until curl -s http://localhost:3000 > /dev/null; do
-          sleep 1
+          sleep 5
         done
         echo "Server is up. Running Playwright tests..."
         npm run test:bot  # Replace with your Playwright test command

@@ -23,7 +23,7 @@ const authenticate = async () => {
 
     // console.log("signupResponse", JSON.stringify(signupResponse));
     if (signupResponse.status !== 201) {
-      console.error(`${redLight} Signup failed`, JSON.stringify(signupResponse), signupResponse);
+      console.error(`${redLight} Signup failed`, JSON.stringify(await signupResponse.json()));
       process.exit(1);
     }
     // console.log(`${greenLight} Signup success`);
@@ -42,12 +42,12 @@ const authenticate = async () => {
     const loginData = await loginResponse.json();
     const token = loginData?.result?.token;
     // console.log(`${greenLight} Login success`);
-    console.log(token);
-    // process.stdout.write(token);
     if (!token) {
       console.error(`${redLight} Failed to retrieve token`);
       process.exit(1);
     }
+    console.log(token);
+    return token;
   } catch (error: any) {
     console.error(`${redLight} Error during authentication:`, error.message);
     process.exit(1);

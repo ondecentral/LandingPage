@@ -17,32 +17,33 @@ const runBotTests = async () => {
   function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
+  const browser = await chromium.launch({ headless: true });
 
   try {
     console.log("Running bot tests...");
     // Step 1: Bot Testing
     const runBotTests = async (token: string): Promise<any[]> => {
       for (let i = 0; i < bots; i++) {
-        const browser = await chromium.launch({ headless: true });
         const context = await browser.newContext({
           userAgent: `Bot-${i}`,
         });
         const page = await context.newPage();
-        await page.goto('http://localhost:3000', { waitUntil: 'networkidle' });
+        await page.goto('http://localhost:3000', { waitUntil: 'load' });
         // const firstButton = page.locator('button').first();
         // await firstButton.waitFor({ state: 'attached' });
         console.log(`Bot-${i} visited.`);
-        await browser.close();
       }
 
       await sleep(3000);
       const response = await fetch(`${apiUrl}/dashboard/fingerprints`, {
         headers: { authorization: `Bearer ${token}` },
       });
+      await browser.close();
       return await response.json();
     };
 
     const fingerprints = await runBotTests(token as string);
+    console.log(JSON.stringify(fingerprints));
     logResult("Test: fingerprints length validation, fingerprints: " + fingerprints.length, fingerprints.length >= 3);
     if(fingerprints.length < bots) {
       process.exit(1);
