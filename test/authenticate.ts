@@ -1,9 +1,7 @@
 const firstName: string = "tester";
 const lastName: string = "tester";
-const email: string = "tester@tester.com";
+const email: string = "techgroup@luciaprotocol.com";
 const password: string = "12345678";
-
-const apiUrl: string = "http://localhost:3002/api";
 
 const greenLight: string = "\x1b[32m✔\x1b[0m"; // Green checkmark
 const redLight: string = "\x1b[31m✘\x1b[0m"; // Red cross
@@ -12,9 +10,12 @@ const logResult = (testName: string, passed: boolean): void => {
 };
 
 const authenticate = async () => {
+  // const dotenv = require('dotenv');
+  // dotenv.config();
   try {
     // console.log("Running authenticate...");
     // Signup
+    const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/api`;
     const signupResponse = await fetch(`${apiUrl}/oauth/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

@@ -28,7 +28,7 @@ jobs:
         image: postgres:15
         env:
           POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.DB_NAME }}
+          POSTGRES_DB: ${{ vars.DB_NAME }}
           POSTGRES_INITDB_ARGS: --no-sync
         ports:
           - 5432:5432
@@ -42,7 +42,7 @@ jobs:
           DB_PORT: 5432
           DB_USERNAME: postgres
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_NAME: ${{ vars.DB_NAME }}
           NODE_ENV: test
           NODE_PORT: 3002
           NODE_TYPE: dashboard
@@ -74,16 +74,30 @@ jobs:
 
     - name: Wait for PostgreSQL to be ready
       run: |
-        until pg_isready -h localhost -p 5432; do
+        MAX_RETRIES=4
+        RETRY_COUNT=0
+        while ! pg_isready -h localhost -p 5432; do
           echo "Waiting for PostgreSQL..."
+          RETRY_COUNT=$((RETRY_COUNT + 1))
+          if [ "$RETRY_COUNT" -ge "$MAX_RETRIES" ]; then
+            echo "PostgreSQL is not ready after $((MAX_RETRIES * 5)) seconds."
+            exit 1
+          fi
           sleep 5
         done
         echo "PostgreSQL is ready."
       
     - name: Check backend service accessibility
       run: |
-        until curl -s http://localhost:3002; do
+        MAX_RETRIES=4
+        RETRY_COUNT=0
+        while ! curl -s 127.0.0.1:3002; do
           echo "Waiting for backend service to be accessible..."
+          RETRY_COUNT=$((RETRY_COUNT + 1))
+          if [ "$RETRY_COUNT" -ge "$MAX_RETRIES" ]; then
+            echo "Backend service is not accessible after $((MAX_RETRIES * 5)) seconds."
+            exit 1
+          fi
           sleep 5
         done
         echo "Backend service is accessible."
@@ -114,43 +128,49 @@ jobs:
         
     - name: Run authenticate to get token
       run: |
-        # echo "TOKEN=$(npx ts-node test/authenticate.ts)" >> $GITHUB_ENV
         TOKEN=$(npx ts-node test/authenticate.ts)
         if [ -z "$TOKEN" ]; then
           echo "Failed to generate TOKEN"
           exit 1
         fi
         echo "TOKEN=$TOKEN" >> $GITHUB_ENV
+      env:
+        NEXT_PUBLIC_BASE_URL: "http://127.0.0.1:${{vars.NODE_PORT}}"
 
     - name: Run api-key-gen to get api key
       run: |
-        # echo "NEXT_PUBLIC_API_KEY=$(npx ts-node test/api-key-gen.ts)" >> $GITHUB_ENV
-        NEXT_PUBLIC_API_KEY=$(npx ts-node test/api-key-gen.ts)
-        if [ -z "$NEXT_PUBLIC_API_KEY" ]; then
+        NEXT_PUBLIC_API_KEY_GEN=$(npx ts-node test/api-key-gen.ts)
+        if [ -z "$NEXT_PUBLIC_API_KEY_GEN" ]; then
           echo "Failed to generate API key"
           exit 1
         fi
-        echo "NEXT_PUBLIC_API_KEY=$NEXT_PUBLIC_API_KEY" >> $GITHUB_ENV
+        echo "NEXT_PUBLIC_API_KEY_GEN=$NEXT_PUBLIC_API_KEY_GEN" >> $GITHUB_ENV
       env:
         TOKEN: ${{ env.TOKEN }}
+        NEXT_PUBLIC_BASE_URL: "http://127.0.0.1:${{vars.NODE_PORT}}"
 
     - name: Run bot-test
       run: |
         npm start &
         SERVER_PID=$!
         echo "Waiting for the server to start..."
+        echo "NEXT_PUBLIC_CLIENT_ID is: $NEXT_PUBLIC_CLIENT_ID"
+        echo ${{ env.NEXT_PUBLIC_API_KEY_GEN }}
         # Wait for the server to be ready (replace the curl URL with your app's health check or main endpoint)
         until curl -s http://localhost:3000 > /dev/null; do
           sleep 5
         done
         echo "Server is up. Running Playwright tests..."
+        RESPONSE=$(curl -s http://localhost:3000/health)
+        echo "Curl response: $RESPONSE"
+        
         npm run test:bot  # Replace with your Playwright test command
         # Kill the server after tests complete
         kill $SERVER_PID
       env:
-        NEXT_PUBLIC_API_KEY: ${{ env.NEXT_PUBLIC_API_KEY }}
-        NEXT_PUBLIC_BASE_URL: "localhost:${{vars.NODE_PORT}}"
-        NEXT_PUBLIC_CLIENT_ID: 3
+        NEXT_PUBLIC_API_KEY: ${{ env.NEXT_PUBLIC_API_KEY_GEN }}
+        NEXT_PUBLIC_BASE_URL: "http://127.0.0.1:${{vars.NODE_PORT}}"
+        NEXT_PUBLIC_CLIENT_ID: 1
   deploy:
     needs: bot-test
     runs-on: ubuntu-latest

@@ -73,7 +73,7 @@ export default function Footer({ border = false }: { border?: boolean }) {
               <li>
                 <Link
                   className="text-stone-600 transition hover:text-gray-900"
-                  href="https://lucia-protocol.gitbook.io/lucia-protocol/"
+                  href="https://www.notion.so/lucia-protocol/Lucia-Protocol-Lite-Paper-1526136c5cc88054880bc0d0ab048196/"
                   target="_blank"
                 >
                   Whitepaper

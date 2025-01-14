@@ -8,6 +8,10 @@ const runBotTests = async () => {
   const redLight: string = "\x1b[31m✘\x1b[0m"; // Red cross
   let allTestsPassed: boolean = true;
   const token = process.env.TOKEN
+  console.log(token);
+  console.log(process.env.NEXT_PUBLIC_CLIENT_ID);
+  console.log(process.env.NEXT_PUBLIC_BASE_URL);
+  console.log(process.env.NEXT_PUBLIC_API_KEY);
   const bots = 3
 
   const logResult = (testName: string, passed: boolean): void => {
@@ -29,12 +33,12 @@ const runBotTests = async () => {
         });
         const page = await context.newPage();
         await page.goto('http://localhost:3000', { waitUntil: 'load' });
-        // const firstButton = page.locator('button').first();
-        // await firstButton.waitFor({ state: 'attached' });
+        const firstButton = page.locator('button').first();
+        await sleep(1000);
+        await firstButton.waitFor({ state: 'attached' });
         console.log(`Bot-${i} visited.`);
       }
 
-      await sleep(3000);
       const response = await fetch(`${apiUrl}/dashboard/fingerprints`, {
         headers: { authorization: `Bearer ${token}` },
       });

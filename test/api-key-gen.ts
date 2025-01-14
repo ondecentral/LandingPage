@@ -1,5 +1,7 @@
+
 const genApiKey = async () => {
-  const apiUrl: string = "http://localhost:3002/api";
+  // const dotenv = require('dotenv');
+  // dotenv.config();
   const greenLight: string = "\x1b[32m✔\x1b[0m"; // Green checkmark
   const redLight: string = "\x1b[31m✘\x1b[0m"; // Red cross
   const token = process.env.TOKEN
@@ -9,6 +11,7 @@ const genApiKey = async () => {
   try {
     // console.log("Generating api key...");
     // Step 1: Generating api key
+    const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/api`;
     const keyResponse = await (await fetch(`${apiUrl}/key`, {
       method: 'POST',
       headers: {

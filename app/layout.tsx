@@ -39,6 +39,9 @@ export default function RootLayout({
       <body
         className={`${dm_sans.variable} bg-stone-50 font-dm_sans tracking-tight text-stone-900 antialiased`}
       >
+        {process.env.NEXT_PUBLIC_CLIENT_ID || ""}
+        {process.env.NEXT_PUBLIC_BASE_URL || ''}
+        {process.env.NEXT_PUBLIC_API_KEY || ''}
         <div className="flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
           {children}
         </div>
