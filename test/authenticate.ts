@@ -10,8 +10,8 @@ const logResult = (testName: string, passed: boolean): void => {
 };
 
 const authenticate = async () => {
-  // const dotenv = require('dotenv');
-  // dotenv.config();
+  const dotenv = require('dotenv');
+  dotenv.config();
   try {
     // console.log("Running authenticate...");
     // Signup

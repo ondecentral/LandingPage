@@ -25,9 +25,9 @@ export default function RootLayout({
   useEffect(() => {
     // Initialize LuciaSDK once on component mount
     LuciaSDK.init({
-      clientId: process.env.NEXT_PUBLIC_CLIENT_ID || "",
-      baseURL: process.env.NEXT_PUBLIC_BASE_URL || '',
-      api_key: process.env.NEXT_PUBLIC_API_KEY || '',
+      clientId: process.env.NEXT_PUBLIC_CLIENT_ID ?? "",
+      baseURL: process.env.NEXT_PUBLIC_BASE_URL ?? "",
+      api_key: process.env.NEXT_PUBLIC_API_KEY ?? "",
     });
     
     // Track a page view
@@ -39,9 +39,6 @@ export default function RootLayout({
       <body
         className={`${dm_sans.variable} bg-stone-50 font-dm_sans tracking-tight text-stone-900 antialiased`}
       >
-        {process.env.NEXT_PUBLIC_CLIENT_ID || ""}
-        {process.env.NEXT_PUBLIC_BASE_URL || ''}
-        {process.env.NEXT_PUBLIC_API_KEY || ''}
         <div className="flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
           {children}
         </div>
