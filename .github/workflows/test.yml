@@ -85,7 +85,6 @@ jobs:
           fi
           sleep 5
         done
-        echo "PostgreSQL is ready."
       
     - name: Check backend service accessibility
       run: |
@@ -100,7 +99,6 @@ jobs:
           fi
           sleep 5
         done
-        echo "Backend service is accessible."
         
     - name: Install frontend dependencies
       run: npm ci
@@ -115,6 +113,7 @@ jobs:
         else
           echo "NODE_ENV=dev" >> $GITHUB_ENV
         fi
+        echo "NEXT_PUBLIC_BASE_URL=http://127.0.0.1:${{vars.NODE_PORT}}" >> $GITHUB_ENV
 
     - name: Install Playwright Browsers
       run: |
@@ -136,27 +135,22 @@ jobs:
           exit 1
         fi
         echo "TOKEN=$TOKEN" >> $GITHUB_ENV
-      env:
-        NEXT_PUBLIC_BASE_URL: "http://127.0.0.1:${{vars.NODE_PORT}}"
 
     - name: Run api-key-gen to get api key
       run: |
-        NEXT_PUBLIC_API_KEY_GEN=$(npx ts-node test/api-key-gen.ts)
-        if [ -z "$NEXT_PUBLIC_API_KEY_GEN" ]; then
+        NEXT_PUBLIC_API_KEY=$(npx ts-node test/api-key-gen.ts)
+        if [ -z "$NEXT_PUBLIC_API_KEY" ]; then
           echo "Failed to generate API key"
           exit 1
         fi
-        echo "NEXT_PUBLIC_API_KEY_GEN=$NEXT_PUBLIC_API_KEY_GEN" >> $GITHUB_ENV
+        echo "NEXT_PUBLIC_API_KEY=$NEXT_PUBLIC_API_KEY" >> $GITHUB_ENV
       env:
         TOKEN: ${{ env.TOKEN }}
-        NEXT_PUBLIC_BASE_URL: "http://127.0.0.1:${{vars.NODE_PORT}}"
 
     - name: Build frontend project
       run: |
         npm run build
       env:
-        NEXT_PUBLIC_API_KEY: ${{ env.NEXT_PUBLIC_API_KEY_GEN }}
-        NEXT_PUBLIC_BASE_URL: "http://127.0.0.1:${{vars.NODE_PORT}}"
         NEXT_PUBLIC_CLIENT_ID: 1
   
     - name: Run bot-test
@@ -164,26 +158,40 @@ jobs:
         npm start &
         SERVER_PID=$!
         echo "Waiting for the server to start..."
-        echo "NEXT_PUBLIC_CLIENT_ID is: $NEXT_PUBLIC_CLIENT_ID"
-        echo ${{ env.NEXT_PUBLIC_API_KEY_GEN }}
         # Wait for the server to be ready (replace the curl URL with your app's health check or main endpoint)
         until curl -s http://localhost:3000 > /dev/null; do
           sleep 5
         done
         echo "Server is up. Running Playwright tests..."
-        RESPONSE=$(curl -s http://localhost:3000/health)
-        echo "Curl response: $RESPONSE"
-
         npm run test:bot  # Replace with your Playwright test command
         # Kill the server after tests complete
         kill $SERVER_PID
-      env:
-        NEXT_PUBLIC_API_KEY: ${{ env.NEXT_PUBLIC_API_KEY_GEN }}
-        NEXT_PUBLIC_BASE_URL: "http://127.0.0.1:${{vars.NODE_PORT}}"
-        NEXT_PUBLIC_CLIENT_ID: 1
 
+  deploy:
+    needs: bot-test
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Install frontend dependencies
+      run: npm ci
+
+    - name: Build frontend project
+      run: |
+        npm run build
+      env:
+        NEXT_PUBLIC_API_KEY: ${{ secrets.API_KEY }}
+        NEXT_PUBLIC_BASE_URL: ${{ github.ref_name == 'main' && vars.BASE_URL_PROD || vars.BASE_URL_STAGING }}
+  
     - name: Deploy to EC2
-      if: success()  # Only run deploy if tests pass
       env:
         SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
         SSH_HOST: ${{ vars.EC2_HOST }}
@@ -238,12 +246,3 @@ jobs:
           pm2 delete $PRJ_DIR
           pm2 start npm --name $PRJ_DIR -- start -- -p $PORT
         EOF
-
-  deploy:
-    needs: bot-test
-    runs-on: ubuntu-latest
-    environment: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
