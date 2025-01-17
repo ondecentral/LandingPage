@@ -1,6 +1,6 @@
-import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/public/images/logo.svg";
+import Link from "@/components/tracked-link";
 
 export default function Header() {
   return (
@@ -36,6 +36,7 @@ export default function Header() {
                 href="https://ads.clickinsights.xyz/login"
                 target="_blank"
                 className="btn-sm bg-white text-gray-800 shadow hover:bg-gray-50"
+                aria-label="Login"
               >
                 Login
               </Link>
@@ -45,6 +46,7 @@ export default function Header() {
                 href="https://ads.clickinsights.xyz/contact"
                 target="_blank"
                 className="btn-sm bg-gray-800 text-gray-200 shadow hover:bg-gray-900"
+                aria-label="Request Demo Header"
               >
                 Request Demo
               </Link>

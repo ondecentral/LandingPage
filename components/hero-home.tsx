@@ -3,6 +3,7 @@
 import PageIllustration from "@/components/page-illustration";
 import BusinessCategories from "@/components/business-categories";
 import LogoSection from "@/components/logoSection";
+import Link from "@/components/tracked-link";
 
 import { Suspense, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -32,18 +33,18 @@ export default function HeroHome() {
   const Logo3D = ({ pointer }: { pointer: Pointer }) => {
     const logoRef = useRef<THREE.Group | null>(null); // Define the type of ref to be a THREE.Group
     const { scene } = useGLTF("../models/logo.glb"); // Load your 3D model from the public folder
-  
+
     useFrame(() => {
       if (logoRef.current) {
         // Log pointer values to debug
         console.log("Pointer X (RotatingCube):", pointer.x, "Pointer Y (RotatingCube):", pointer.y);
-  
+
         // Scale up the pointer effect to make rotation more noticeable
         logoRef.current.rotation.y = pointer.x * 0.1; // Increase the multiplier for more rotation
         logoRef.current.rotation.x = pointer.y * 0.1;
       }
     });
-  
+
     return (
       <primitive ref={logoRef} object={scene} scale={0.175} />
     );
@@ -98,7 +99,7 @@ export default function HeroHome() {
         {/* 3D Logo Container */}
         {/* <div className="absolute z-1 h-1/5 w-6/12 left-0 top-20">
           <Spline
-            scene="https://prod.spline.design/jZ9pmRNBxzmrlmYH/scene.splinecode" 
+            scene="https://prod.spline.design/jZ9pmRNBxzmrlmYH/scene.splinecode"
           />
         </div> */}
         <div style={{ position: "relative", zIndex: 2 }}>
@@ -140,9 +141,10 @@ export default function HeroHome() {
                       data-aos="zoom-y-out"
                       data-aos-delay={450}
                     >
-                      <a
+                      <Link
                         className="btn group mb-4 w-full bg-gradient-to-r from-orange-400 to-orange-600 bg-[length:100%_100%] bg-[bottom] text-white shadow hover:bg-[length:100%_150%] sm:mb-0 sm:w-auto"
                         href="https://ads.clickinsights.xyz/contact"
+                        aria-label="Request Demo Hero"
                       >
                         <span className="relative inline-flex items-center">
                           Request Demo{" "}
@@ -164,14 +166,15 @@ export default function HeroHome() {
                             </svg>
                           </span>
                         </span>
-                      </a>
-                      <a
+                      </Link>
+                      <Link
                         className="btn w-full bg-white text-stone-800 shadow hover:bg-stone-50 sm:ml-4 sm:w-auto"
                         href="https://ads.clickinsights.xyz"
                         target="_blank"
+                        aria-label="Learn More Hero"
                       >
                         Learn More
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
