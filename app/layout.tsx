@@ -1,10 +1,8 @@
-"use client"
+"use client";
 
 import "./css/style.css";
-
 import { DM_Sans } from "next/font/google";
-import LuciaSDK from "luciasdk-t3";
-import { useEffect } from "react";
+import LuciaSDK from "lucia-sdk";
 
 const dm_sans = DM_Sans({
   subsets: ["latin"],
@@ -12,10 +10,12 @@ const dm_sans = DM_Sans({
   display: "swap",
 });
 
-// export const metadata = {
-//   title: "Home – Lucia Protocol",
-//   description: "Web2 & Web3 Ad Attribution Platform",
-// };
+if (typeof window !== 'undefined') {
+  LuciaSDK.init({
+    debugURL: process.env.NEXT_PUBLIC_BASE_URL || "",
+    apiKey: process.env.NEXT_PUBLIC_API_KEY || "",
+  });
+}
 
 export default function RootLayout({
   children,
@@ -29,7 +29,7 @@ export default function RootLayout({
       baseURL: process.env.NEXT_PUBLIC_BASE_URL ?? "",
       api_key: process.env.NEXT_PUBLIC_API_KEY ?? "",
     });
-    
+
     // Track a page view
     LuciaSDK.pageView(window.location.pathname);
   }, []);
