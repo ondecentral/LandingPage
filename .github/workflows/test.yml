@@ -249,4 +249,5 @@ jobs:
           fi
           pm2 delete $PRJ_DIR || true
           pm2 start npm --name $PRJ_DIR -- start -- -p $PORT
+          pm2 save
         EOF
