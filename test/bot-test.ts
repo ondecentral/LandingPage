@@ -89,6 +89,86 @@ const runBotTests = async () => {
       ],
       hardwareConcurrency: 8,
       deviceMemory: 8,
+    }, { 
+      userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+      viewport: { width: 1710, height: 1107 },
+      deviceScaleFactor: 2,
+      isMobile: false,
+      locale: 'en-US',
+      timezoneId: 'America/New_York',
+      plugins: [
+        { name: 'PDF Viewer' },
+        { name: 'Chrome PDF Viewer' },
+        { name: 'Chromium PDF Viewer' },
+        { name: 'Microsoft Edge PDF Viewer' },
+        { name: 'WebKit built-in PDF' },
+      ],
+      hardwareConcurrency: 8,
+      deviceMemory: 8,
+    }, { 
+      userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15",
+      viewport: { width: 1710, height: 1107 },
+      deviceScaleFactor: 2,
+      isMobile: false,
+      locale: 'en-US',
+      timezoneId: 'America/New_York',
+      plugins: [
+        { name: 'PDF Viewer' },
+        { name: 'Chrome PDF Viewer' },
+        { name: 'Chromium PDF Viewer' },
+        { name: 'Microsoft Edge PDF Viewer' },
+        { name: 'WebKit built-in PDF' },
+      ],
+      hardwareConcurrency: 8,
+      deviceMemory: 8,
+    }, { 
+      userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 OPR/115.0.0.0",
+      viewport: { width: 1710, height: 1107 },
+      deviceScaleFactor: 2,
+      isMobile: false,
+      locale: 'en-US',
+      timezoneId: 'America/New_York',
+      plugins: [
+        { name: 'PDF Viewer' },
+        { name: 'Chrome PDF Viewer' },
+        { name: 'Chromium PDF Viewer' },
+        { name: 'Microsoft Edge PDF Viewer' },
+        { name: 'WebKit built-in PDF' },
+      ],
+      hardwareConcurrency: 8,
+      deviceMemory: 8,
+    }, { 
+      userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:133.0) Gecko/20100101 Firefox/133.0",
+      viewport: { width: 1710, height: 1107 },
+      deviceScaleFactor: 2,
+      isMobile: false,
+      locale: 'en-US',
+      timezoneId: 'America/New_York',
+      plugins: [
+        { name: 'PDF Viewer' },
+        { name: 'Chrome PDF Viewer' },
+        { name: 'Chromium PDF Viewer' },
+        { name: 'Microsoft Edge PDF Viewer' },
+        { name: 'WebKit built-in PDF' },
+      ],
+      hardwareConcurrency: 8,
+      deviceMemory: 8,
+    }, { 
+      userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/13.17.0 Chrome/118.0.5993.159 Electron/27.3.10 Safari/537.36",
+      viewport: { width: 1710, height: 1107 },
+      deviceScaleFactor: 2,
+      isMobile: false,
+      locale: 'en-US',
+      timezoneId: 'America/New_York',
+      plugins: [
+        { name: 'PDF Viewer' },
+        { name: 'Chrome PDF Viewer' },
+        { name: 'Chromium PDF Viewer' },
+        { name: 'Microsoft Edge PDF Viewer' },
+        { name: 'WebKit built-in PDF' },
+      ],
+      hardwareConcurrency: 8,
+      deviceMemory: 8,
     },
   ];
 
@@ -125,8 +205,6 @@ const runBotTests = async () => {
     };
 
     const {fingerprints, views} = await runBotTests(token as string);
-    console.log(JSON.stringify(fingerprints));
-    console.log(JSON.stringify(views));
     if(fingerprints === null) {
       throw new Error("Failed to fetch fingerprints data");
     }
