@@ -241,12 +241,7 @@ jobs:
           echo "Installing dependencies and starting the app"
           npm install --production
           echo "Checking if port $PORT is in use"
-          if lsof -i :$PORT; then
-            echo "Port $PORT is in use. Killing the process..."
-            fuser -k $PORT/tcp
-          else
-            echo "Port $PORT is free."
-          fi
+          fuser -k $PORT/tcp
           pm2 delete $PRJ_DIR || true
           pm2 start npm --name $PRJ_DIR -- start -- -p $PORT
           pm2 save
