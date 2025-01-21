@@ -176,6 +176,9 @@ const runBotTests = async () => {
     console.log(`${passed ? greenLight : redLight} ${testName}`);
     if (!passed) allTestsPassed = false;
   };
+  function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
   const browser = await chromium.launch({ headless: true });
 
   try {
@@ -185,11 +188,11 @@ const runBotTests = async () => {
       for (const bot of bots) {
         const context = await browser.newContext(bot);
         const page = await context.newPage();
-        await page.goto('http://localhost:3000', { waitUntil: 'networkidle' });
+        await page.goto('http://localhost:3000', { waitUntil: 'load' });
         const firstButton = page.locator('button').first();
         await firstButton.waitFor({ state: 'attached' });
       }
-
+      await sleep(2000); // Wait for the last visit to be sent to the server
       const fingerprints = await fetch(`${apiUrl}/dashboard/fingerprints`, {
         headers: { authorization: `Bearer ${token}` },
       });
