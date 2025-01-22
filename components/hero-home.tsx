@@ -197,62 +197,59 @@ export default function HeroHome() {
                     </span>
                     <br />
                     <span className="animate-[code-1_10s_infinite] text-gray-200">
-                      npm install luciasdk-t3
+                      npm install lucia-sdk
                     </span>
                     <br />
-                    <span className="animate-[code-2_10s_infinite]">
+                    <span className="animate-[code-1_10s_infinite]">
                       Package successfully installed.
                     </span>
                     <br />
                     <br />
-                    <span className="animate-[code-3_10s_infinite] text-gray-400">
+                    <span className="animate-[code-2_10s_infinite] text-gray-400">
                       // app.js
                     </span>
                     <br />
-                    <span className="animate-[code-3_10s_infinite] text-gray-200 flex flex-inline gap-2">
-                      <div className="text-orange-400">import</div>
-                      <div className="text-green-300">'lucia.js'</div>;
-                    </span>
-                    <br />
-                    <br />
-                    <span className="animate-[code-4_10s_infinite] text-gray-400">
-                      // page.js
-                    </span>
-                    <br />
-                    <span className="animate-[code-4_10s_infinite] text-gray-200 flex flex-inline gap-2">
-                      <div className="text-orange-400">import</div> LuciaSDK
+                    <span className="animate-[code-2_10s_infinite] text-gray-200 flex flex-inline gap-2">
+                       <div className="text-orange-400">import</div> LuciaSDK
                       <div className="text-orange-400">from</div>
-                      <div className="text-green-300">'lucia-t3'</div>;
+                      <div className="text-green-300">'lucia-sdk'</div>;
                     </span>
-                    <br />
-                    <span className="animate-[code-5_10s_infinite] text-gray-200 flex flex-inline">
+                    <span className="animate-[code-3_10s_infinite] text-gray-200 flex flex-inline">
                       {"LuciaSDK"}
                       <div className="text-orange-400">.</div>
                       <div className="text-orange-300">init</div>
                       <div className="text-yellow-400">{"("}</div>
                       <div className="text-purple-400">{"{"}</div>
                     </span>
-                    <br />
-                    <span className="animate-[code-6_10s_infinite] text-gray-200 flex flex-inline gap-2">
-                      baseURL:
-                      <div className="text-green-300">
-                        'https://api.clickinsights.xyz'
-                      </div>
-                      ,
+                    <span className="animate-[code-4_10s_infinite]">
+                      &nbsp;// Get your API Key from https://ads.clickinsights.xyz
                     </span>
                     <br />
-                    <span className="animate-[code-6_10s_infinite]">
-                      // Get your API Key from https://ads.clickinsights.xyz
-                    </span>
-                    <br />
-                    <span className="animate-[code-6_10s_infinite] text-gray-200 flex flex-inline gap-2">
-                      api_key:
+                    <span className="animate-[code-4_10s_infinite] text-gray-200 flex flex-inline gap-2">
+                      &nbsp;apiKey:
                       <div className="text-green-300">'your-api-here'</div>,
                     </span>
-                    <br />
-                    <span className="animate-[code-5_10s_infinite] text-gray-200 flex flex-inline">
+                    <span className="animate-[code-3_10s_infinite] text-gray-200 flex flex-inline">
                       <div className="text-purple-400">{"}"}</div>
                       <div className="text-yellow-400">{")"}</div>;
+                    </span>
+                    <br />
+                    <span className="animate-[code-5_10s_infinite] text-gray-400">
+                      // page.js
+                    </span>
+                    <br />
+                    <span className="animate-[code-5_10s_infinite] text-gray-200 flex flex-inline gap-2">
+                      <div className="text-orange-400">import</div> LuciaSDK
+                      <div className="text-orange-400">from</div>
+                      <div className="text-green-300">'lucia-sdk'</div>;
+                    </span>
+                    <span className="animate-[code-6_10s_infinite] text-gray-200 flex flex-inline">
+                      {"LuciaSDK"}
+                      <div className="text-orange-400">.</div>
+                      <div className="text-orange-300">pageView</div>
+                      <div className="text-yellow-400">{"("}</div>
+                      <div className="text-green-300">'your-page-here'</div>
+                      <div className="text-yellow-400">{")"}</div>
                     </span>
                   </div>
                 </div>
