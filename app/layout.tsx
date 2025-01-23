@@ -22,18 +22,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  useEffect(() => {
-    // Initialize LuciaSDK once on component mount
-    LuciaSDK.init({
-      clientId: process.env.NEXT_PUBLIC_CLIENT_ID ?? "",
-      baseURL: process.env.NEXT_PUBLIC_BASE_URL ?? "",
-      api_key: process.env.NEXT_PUBLIC_API_KEY ?? "",
-    });
-
-    // Track a page view
-    LuciaSDK.pageView(window.location.pathname);
-  }, []);
-
   return (
     <html lang="en" className="scroll-smooth">
       <body
