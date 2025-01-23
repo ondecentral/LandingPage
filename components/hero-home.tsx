@@ -122,7 +122,7 @@ export default function HeroHome() {
                   data-aos="zoom-y-out"
                   data-aos-delay={150}
                 >
-                  Web3 Attribution <br className="max-lg:hidden" />
+                  Web3 Attribution Test <br className="max-lg:hidden" />
                   <span className="font-light">Powered by AI</span>
                 </h1>
                 <div className="mx-auto max-w-3xl">
@@ -157,9 +157,9 @@ export default function HeroHome() {
                               <path
                                 d="M9 18L15 12L9 6"
                                 stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               />
                             </svg>
                           </span>

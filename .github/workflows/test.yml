@@ -1,0 +1,248 @@
+name: github action test - Deploy to EC2
+
+on:
+  push:
+    branches:
+      - develop
+      - feat/bot-test
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Tag for fk-backend service images  (e.g., latest, staging, test)"
+        required: false
+        default: staging
+      build_tag:
+        description: "Tag for test image to build (e.g., test, branch-name)"
+        required: false
+
+jobs:
+  bot-test:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_DB: ${{ vars.DB_NAME }}
+          POSTGRES_INITDB_ARGS: --no-sync
+        ports:
+          - 5432:5432
+
+      api:
+        image: ghcr.io/ondecentral/${{ vars.REPO_NAME }}:${{ inputs.backend_tag || 'test' }}
+        # TODO: when https://github.com/ondecentral/fk-backend/pull/70 is merged and released, the following image is to be used
+        # image: ghcr.io/ondecentral/fk-backend:${{ inputs.backend_tag || (github.event.pull_request.base.ref == 'main' && 'latest') || inputs.image_tag || 'staging' }}
+        env:
+          DB_HOST: postgres
+          DB_PORT: 5432
+          DB_USERNAME: postgres
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ vars.DB_NAME }}
+          NODE_ENV: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'develop' && 'staging' || 'dev') }}
+          NODE_PORT: 3002
+          NODE_TYPE: dashboard
+          JWT_TOKEN_EXPIRY_MIN: 1h
+          TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_OAUTH_REDIRECT: ${{ secrets.GOOGLE_OAUTH_REDIRECT }}
+          GDPR_ENCRYPTION_KEY: ${{ secrets.GDPR_ENCRYPTION_KEY }}
+          GDPR_ENCRYPTION_IV: ${{ secrets.GDPR_ENCRYPTION_IV }}
+          HASH_COST: 10
+          EMAIL: ${{ secrets.EMAIL }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+        ports:
+          - 3002:3002
+        credentials:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_PAT_CLASSIC }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        MAX_RETRIES=4
+        RETRY_COUNT=0
+        while ! pg_isready -h localhost -p 5432; do
+          echo "Waiting for PostgreSQL..."
+          RETRY_COUNT=$((RETRY_COUNT + 1))
+          if [ "$RETRY_COUNT" -ge "$MAX_RETRIES" ]; then
+            echo "PostgreSQL is not ready after $((MAX_RETRIES * 5)) seconds."
+            exit 1
+          fi
+          sleep 5
+        done
+      
+    - name: Check backend service accessibility
+      run: |
+        MAX_RETRIES=4
+        RETRY_COUNT=0
+        while ! curl -s 127.0.0.1:3002; do
+          echo "Waiting for backend service to be accessible..."
+          RETRY_COUNT=$((RETRY_COUNT + 1))
+          if [ "$RETRY_COUNT" -ge "$MAX_RETRIES" ]; then
+            echo "Backend service is not accessible after $((MAX_RETRIES * 5)) seconds."
+            exit 1
+          fi
+          sleep 5
+        done
+        
+    - name: Install frontend dependencies
+      run: npm ci
+
+    - name: Set environment variables
+      id: set_env_vars
+      run: |
+        if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
+          echo "NODE_ENV=production" >> $GITHUB_ENV
+        elif [[ "${GITHUB_REF_NAME}" == "develop" ]]; then
+          echo "NODE_ENV=staging" >> $GITHUB_ENV
+        else
+          echo "NODE_ENV=dev" >> $GITHUB_ENV
+        fi
+        echo "NEXT_PUBLIC_BASE_URL=http://127.0.0.1:${{vars.NODE_PORT}}" >> $GITHUB_ENV
+
+    - name: Install Playwright Browsers
+      run: |
+        if ! npm list playwright; then
+          echo "Playwright is not installed, installing Playwright..."
+          npm install playwright
+        fi
+        npx playwright install
+
+    - name: Install ts-node
+      run: |
+        npm i -D ts-node
+        
+    - name: Run authenticate to get token
+      run: |
+        TOKEN=$(npx ts-node test/authenticate.ts)
+        if [ -z "$TOKEN" ]; then
+          echo "Failed to generate TOKEN"
+          exit 1
+        fi
+        echo "TOKEN=$TOKEN" >> $GITHUB_ENV
+
+    - name: Run api-key-gen to get api key
+      run: |
+        NEXT_PUBLIC_API_KEY=$(npx ts-node test/api-key-gen.ts)
+        if [ -z "$NEXT_PUBLIC_API_KEY" ]; then
+          echo "Failed to generate API key"
+          exit 1
+        fi
+        echo "NEXT_PUBLIC_API_KEY=$NEXT_PUBLIC_API_KEY" >> $GITHUB_ENV
+      env:
+        TOKEN: ${{ env.TOKEN }}
+
+    - name: Build frontend project
+      run: |
+        npm run build
+      env:
+        NEXT_PUBLIC_CLIENT_ID: 1
+  
+    - name: Run bot-test
+      run: |
+        npm start &
+        SERVER_PID=$!
+        echo "Waiting for the server to start..."
+        # Wait for the server to be ready (replace the curl URL with your app's health check or main endpoint)
+        until curl -s http://localhost:3000 > /dev/null; do
+          sleep 5
+        done
+        echo "Server is up. Running Playwright tests..."
+        npm run test:bot  # Replace with your Playwright test command
+        # Kill the server after tests complete
+        kill $SERVER_PID
+
+  deploy:
+    needs: bot-test
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Install frontend dependencies
+      run: npm ci
+
+    - name: Build frontend project
+      run: |
+        npm run build
+      env:
+        NEXT_PUBLIC_API_KEY: ${{ secrets.API_KEY }}
+        NEXT_PUBLIC_BASE_URL: ${{ github.ref_name == 'main' && vars.BASE_URL_PROD || vars.BASE_URL_STAGING }}
+  
+    - name: Deploy to EC2
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+        SSH_HOST: ${{ vars.EC2_HOST }}
+        SSH_USERNAME: ${{ secrets.EC2_USER }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+        if [[ "${{ github.ref_name }}" == "main" ]]; then
+          PRJ_DIR="/var/www/${{ vars.PRJ_PROD_DIR }}"
+          PORT="3001"
+        else
+          PRJ_DIR="/var/www/${{ vars.PRJ_STAGE_DIR }}"
+          PORT="3000"
+        fi
+
+        echo "Deploying to $PRJ_DIR on EC2"
+
+        # Ensure Node.js and pm2 are installed only if not present
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "$SSH_USERNAME@$SSH_HOST" "
+          if ! command -v node > /dev/null; then
+            echo 'Node.js not found. Installing Node.js...' && \
+            curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && \
+            sudo apt-get install -y nodejs
+          else
+            echo 'Node.js is already installed.'
+          fi
+
+          if ! command -v pm2 > /dev/null; then
+            echo 'pm2 not found. Installing pm2...' && \
+            sudo npm install -g pm2
+          else
+            echo 'pm2 is already installed.'
+          fi
+
+          sudo mkdir -p $PRJ_DIR && \
+          sudo chown -R $SSH_USERNAME:$SSH_USERNAME $PRJ_DIR
+
+          echo 'Uploading built files to the EC2 instance'
+        "
+
+        # Upload built files to the EC2 instance
+        # scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r .next package.json public "$SSH_USERNAME@$SSH_HOST:$PRJ_DIR"
+        rsync -avz -e "ssh -i ~/.ssh/id_rsa" --progress .next package.json public "$SSH_USERNAME@$SSH_HOST:$PRJ_DIR"
+
+        # Start or restart the application using PM2
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "$SSH_USERNAME@$SSH_HOST" << EOF
+          cd $PRJ_DIR
+          echo "Installing dependencies and starting the app"
+          npm install --production
+          echo "Checking if port $PORT is in use"
+          fuser -k $PORT/tcp
+          pm2 delete $PRJ_DIR || true
+          pm2 start npm --name $PRJ_DIR -- start -- -p $PORT
+          pm2 save
+        EOF

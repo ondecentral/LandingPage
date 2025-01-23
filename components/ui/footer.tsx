@@ -73,7 +73,7 @@ export default function Footer({ border = false }: { border?: boolean }) {
               <li>
                 <Link
                   className="text-stone-600 transition hover:text-gray-900"
-                  href="https://lucia-protocol.gitbook.io/lucia-protocol/"
+                  href="https://docsend.com/view/ymm3s5mpnrg9m6mu"
                   target="_blank"
                 >
                   Whitepaper

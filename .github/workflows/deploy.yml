@@ -26,9 +26,15 @@ jobs:
         docker ps -aq | xargs --no-run-if-empty docker rm
 
     - name: Clone backend repository
+      env:
+        SSH_GIT_PRIVATE_KEY: ${{ secrets.GIT_SSH_KEY }}
       run: |
-        git clone https://DevT999:${{ secrets.GH_PAT }}@github.com/ondecentral/fk-backend.git
-        cd github-action-backend
+        mkdir -p ~/.ssh
+        echo "$SSH_GIT_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        #git clone https://${{ vars.GH_USERNAME }}:${{ secrets.GH_PAT }}@github.com/${{ vars.GH_BACKEND_OWNER }}/${{ vars.REPO_NAME }}.git
+        git clone git@github.com:${{ vars.GH_BACKEND_OWNER }}/${{ vars.REPO_NAME }}.git
+        cd ${{ vars.REPO_NAME }}
         git checkout ${{ github.ref_name }}
 
     - name: Build and run backend Docker container
@@ -51,9 +57,11 @@ jobs:
         GDPR_ENCRYPTION_IV: ${{ secrets.GDPR_ENCRYPTION_IV }}
         NODE_ENV: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
       run: |
-        cd github-action-backend
-        if lsof -i:3002; then
-          lsof -i:3002 | awk 'NR>1 {print $2}' | xargs kill -9 || true
+        cd ${{ vars.REPO_NAME }}
+        # Setup environment variables
+        echo "${{ secrets.BACKEND_ENVFILE }}" > .env
+        if lsof -i:${{ vars.NODE_PORT }}; then
+          lsof -i:${{ vars.NODE_PORT }} | awk 'NR>1 {print $2}' | xargs kill -9 || true
         fi
         # docker-compose up -d --build
         docker-compose -f docker-compose.yml up -d --build
@@ -89,20 +97,52 @@ jobs:
           npm install playwright
         fi
         npx playwright install
+
+    - name: Install ts-node
+      run: |
+        npm i -D ts-node
         
-    - name: Run Playwright tests for frontend
+    - name: Run authenticate to get token
+      run: |
+        echo "Creating user and logging in..."
+        TOKEN=$(npx ts-node test/authenticate.ts)
+        echo "TOKEN=$TOKEN" >> $GITHUB_ENV
+        echo "TOKEN: $TOKEN"
+        if [ -z "$TOKEN" ]; then
+          echo "Failed to retrieve token"
+          exit 1
+        fi
+
+    - name: Run api-key-gen to get api key
+      run: |
+        echo "Generating an api key..."
+        NEXT_PUBLIC_API_KEY=$(npx ts-node test/api-key-gen.ts)
+        echo "NEXT_PUBLIC_API_KEY=$NEXT_PUBLIC_API_KEY" >> $GITHUB_ENV
+        echo "Generated API key: $NEXT_PUBLIC_API_KEY"
+        if [ -z "$NEXT_PUBLIC_API_KEY" ]; then
+          echo "Failed to generate a key"
+          exit 1
+        fi
+      env:
+        TOKEN: ${{ env.TOKEN }}
+
+    - name: Run bot-test
       run: |
         npm start &
         SERVER_PID=$!
         echo "Waiting for the server to start..."
         # Wait for the server to be ready (replace the curl URL with your app's health check or main endpoint)
         until curl -s http://localhost:3000 > /dev/null; do
-          sleep 1
+          sleep 5
         done
         echo "Server is up. Running Playwright tests..."
         npm run test:bot  # Replace with your Playwright test command
         # Kill the server after tests complete
         kill $SERVER_PID
+      env:
+        NEXT_PUBLIC_API_KEY: ${{ env.NEXT_PUBLIC_API_KEY }}
+        NEXT_PUBLIC_BASE_URL: "http://localhost:${{vars.NODE_PORT}}"
+        NEXT_PUBLIC_CLIENT_ID: 3
 
     - name: Deploy to EC2
       if: success()  # Only run deploy if tests pass
@@ -116,48 +156,47 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
 
         if [[ "${{ github.ref_name }}" == "main" ]]; then
-          PRJ_DIR="/var/www/adAttr-frontend-production"
+          PRJ_DIR="/var/www/${{ vars.PRJ_PROD_DIR }}"
           PORT="3001"
         else
-          PRJ_DIR="/var/www/adAttr-frontend-staging"
+          PRJ_DIR="/var/www/${{ vars.PRJ_STAGE_DIR }}"
           PORT="3000"
         fi
 
         echo "Deploying to $PRJ_DIR on EC2"
 
         # Ensure Node.js and pm2 are installed only if not present
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "$SSH_USERNAME@$SSH_HOST" "
-            if ! command -v node > /dev/null; then
-              echo 'Node.js not found. Installing Node.js...' && \
-              curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && \
-              sudo apt-get install -y nodejs
-            else
-              echo 'Node.js is already installed.'
-            fi
-
-            if ! command -v pm2 > /dev/null; then
-              echo 'pm2 not found. Installing pm2...' && \
-              sudo npm install -g pm2
-            else
-              echo 'pm2 is already installed.'
-            fi
-          "
-
-        # Create the environment directory and ensure correct ownership
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "$SSH_USERNAME@$SSH_HOST" "
+          if ! command -v node > /dev/null; then
+            echo 'Node.js not found. Installing Node.js...' && \
+            curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && \
+            sudo apt-get install -y nodejs
+          else
+            echo 'Node.js is already installed.'
+          fi
+
+          if ! command -v pm2 > /dev/null; then
+            echo 'pm2 not found. Installing pm2...' && \
+            sudo npm install -g pm2
+          else
+            echo 'pm2 is already installed.'
+          fi
+
           sudo mkdir -p $PRJ_DIR && \
           sudo chown -R $SSH_USERNAME:$SSH_USERNAME $PRJ_DIR
+
+          echo 'Uploading built files to the EC2 instance'
         "
 
         # Upload built files to the EC2 instance
-        scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r .next package.json public "$SSH_USERNAME@$SSH_HOST:$PRJ_DIR"
+        # scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r .next package.json public "$SSH_USERNAME@$SSH_HOST:$PRJ_DIR"
+        rsync -avz -e "ssh -i ~/.ssh/id_rsa" --progress .next package.json public "$SSH_USERNAME@$SSH_HOST:$PRJ_DIR"
 
         # Start or restart the application using PM2
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "$SSH_USERNAME@$SSH_HOST" << EOF
           cd $PRJ_DIR
           echo "Installing dependencies and starting the app"
           npm install --production
-          pm2 stop $PRJ_DIR || true
+          pm2 delete $PRJ_DIR
           pm2 start npm --name $PRJ_DIR -- start -- -p $PORT
-          pm2 save
         EOF
