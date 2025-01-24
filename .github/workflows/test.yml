@@ -3,7 +3,6 @@ name: github action test - Deploy to EC2
 on:
   push:
     branches:
-      - develop
       - feat/bot-test
   workflow_dispatch:
     inputs:
