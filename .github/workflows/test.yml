@@ -3,7 +3,6 @@ name: github action test - Deploy to EC2
 on:
   push:
     branches:
-      - develop
       - feat/bot-test
   workflow_dispatch:
     inputs:
@@ -41,7 +40,7 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_NAME: ${{ vars.DB_NAME }}
           NODE_ENV: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'develop' && 'staging' || 'dev') }}
-          NODE_PORT: 3002
+          NODE_PORT: ${{ vars.NODE_PORT }}
           NODE_TYPE: dashboard
           JWT_TOKEN_EXPIRY_MIN: 1h
           TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
@@ -55,7 +54,7 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
         ports:
-          - 3002:3002
+          - ${{ vars.NODE_PORT }}:${{ vars.NODE_PORT }}
         credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_PAT_CLASSIC }}
@@ -87,7 +86,7 @@ jobs:
       run: |
         MAX_RETRIES=4
         RETRY_COUNT=0
-        while ! curl -s 127.0.0.1:3002; do
+        while ! curl -s 127.0.0.1:${{ vars.NODE_PORT }}; do
           echo "Waiting for backend service to be accessible..."
           RETRY_COUNT=$((RETRY_COUNT + 1))
           if [ "$RETRY_COUNT" -ge "$MAX_RETRIES" ]; then
@@ -147,8 +146,6 @@ jobs:
     - name: Build frontend project
       run: |
         npm run build
-      env:
-        NEXT_PUBLIC_CLIENT_ID: 1
   
     - name: Run bot-test
       run: |
@@ -194,6 +191,7 @@ jobs:
         SSH_HOST: ${{ vars.EC2_HOST }}
         SSH_USERNAME: ${{ secrets.EC2_USER }}
       run: |
+        exit 0
         mkdir -p ~/.ssh
         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
