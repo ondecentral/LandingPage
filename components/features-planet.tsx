@@ -9,6 +9,7 @@ import PlanetTagImg01 from "@/public/images/planet-tag-01.png";
 import PlanetTagImg02 from "@/public/images/planet-tag-02.png";
 import PlanetTagImg03 from "@/public/images/planet-tag-03.png";
 import PlanetTagImg04 from "@/public/images/planet-tag-04.png";
+import Button from "@/components/tracked-button";
 
 export default function FeaturesPlanet() {
   const [keyFeature, setKeyFeature] = useState<number>(1);
@@ -68,9 +69,10 @@ export default function FeaturesPlanet() {
               {/* Button container */}
               <div className="flex flex-col gap-y-4 justify-center mt-8">
                 {/* Button #1 */}
-                <button
+                <Button
                   className={`flex h-8 flex-1 items-center gap-2.5 whitespace-nowrap rounded-lg p-6 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-200 ${keyFeature === 1 ? "relative  bg-stone-800 outline outline-stone-700 before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-transparent before: before:[mask-composite:exclude_!important] before:[mask:linear-gradient(white_0_0)_padding-box,_linear-gradient(white_0_0)]" : "opacity-65 transition-opacity hover:opacity-90"}`}
                   aria-pressed={keyFeature === 1}
+                  aria-label="Supported Platforms"
                   onClick={() => setKeyFeature(1)}
                 >
                   {/* Icon */}
@@ -90,12 +92,13 @@ export default function FeaturesPlanet() {
                       Integration with major social media platforms (e.g. Twitter, Discord, Telegram, LinkedIn, and Google) for comprehensive data collection.
                     </span>
                   </div>
-                </button>
+                </Button>
 
                 {/* Button #2 */}
-                <button
+                <Button
                   className={`flex h-8 flex-1 items-center gap-2.5 whitespace-nowrap rounded-lg p-6 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-200 ${keyFeature === 2 ? "relative  bg-stone-800 outline outline-stone-700 before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-transparent before: before:[mask-composite:exclude_!important] before:[mask:linear-gradient(white_0_0)_padding-box,_linear-gradient(white_0_0)]" : "opacity-65 transition-opacity hover:opacity-90"}`}
                   aria-pressed={keyFeature === 2}
+                  aria-label="Real-time Metrics"
                   onClick={() => setKeyFeature(2)}
                 >
                   {/* Icon */}
@@ -115,12 +118,13 @@ export default function FeaturesPlanet() {
                       Comprehensive suite of insights derived from SDK, designed to enhance your understanding of user engagement and conversion metrics.
                     </span>
                   </div>
-                </button>
+                </Button>
 
                 {/* Button #3 */}
-                <button
+                <Button
                   className={`flex h-8 flex-1 items-center gap-2.5 whitespace-nowrap rounded-lg p-6 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-200 ${keyFeature === 3 ? "relative  bg-stone-800 outline outline-stone-700 before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-transparent before: before:[mask-composite:exclude_!important] before:[mask:linear-gradient(white_0_0)_padding-box,_linear-gradient(white_0_0)]" : "opacity-65 transition-opacity hover:opacity-90"}`}
                   aria-pressed={keyFeature === 3}
+                  aria-label="AI-Driven Insights"
                   onClick={() => setKeyFeature(3)}
                 >
                   {/* Icon */}
@@ -140,7 +144,7 @@ export default function FeaturesPlanet() {
                       Leverage AI for deeper understanding and optimization of ad campaigns.
                     </span>
                   </div>
-                </button>
+                  </Button>
               </div>
             </div>
 

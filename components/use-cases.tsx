@@ -3,6 +3,7 @@
 import { useState } from "react";
 import useMasonry from "@/utils/useMasonry";
 import Image, { StaticImageData } from "next/image";
+import Link from "@/components/tracked-link";
 
 const use_cases = [
   {
@@ -265,13 +266,14 @@ export function UseCase({
         <div
               className="max-w-xs sm:flex sm:max-w-none sm:justify-center"
             >
-              <a
+              <Link
                 className="btn w-full outline outline-offset-2 outline-1 outline-slate-300 bg-transparent text-stone-800 shadow hover:drop-shadow-lg hover:outline-4 hover:outline-orange-500 hover:bg-orange-50 sm:ml-4 sm:w-auto"
                 href={useCase.link}
                 target="_blank"
+                aria-label="Learn More Use Case"
               >
                 Learn more
-              </a>
+              </Link>
             </div>
         </div>
       </div>

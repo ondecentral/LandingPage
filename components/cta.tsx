@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Stripes from "@/public/images/stripes-dark.svg";
+import Link from "@/components/tracked-link";
 
 export default function Cta() {
   return (
@@ -34,10 +35,11 @@ export default function Cta() {
               Get started with Lucia Protocol
             </h2>
             <div className="mx-auto max-w-xs sm:flex sm:max-w-none sm:justify-center">
-              <a
+              <Link
                 className="btn group mb-4 w-full bg-gradient-to-t from-orange-600 to-orange-500 bg-[length:100%_100%] bg-[bottom] text-white shadow hover:bg-[length:100%_150%] sm:mb-0 sm:w-auto"
                 href="https://ads.clickinsights.xyz/contact"
                 target="_blank"
+                aria-label="Request Demo CTA"
               >
                 <span className="relative inline-flex items-center">
                   Request Demo{" "}
@@ -59,7 +61,7 @@ export default function Cta() {
                     </svg>
                   </span>
                 </span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

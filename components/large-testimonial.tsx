@@ -1,5 +1,6 @@
 import Image from "next/image";
 import coinsub from "@/public/images/coinsub.jpg";
+import Link from "@/components/tracked-link";
 
 export default function LargeTestimonial() {
   return (
@@ -37,9 +38,9 @@ export default function LargeTestimonial() {
             <div className="text-sm font-medium text-stone-500">
               <span className="text-stone-700">Jasper</span>{" "}
               <span className="text-stone-400">/</span>{" "}
-              <a className="text-orange-500" href="#0">
+              <Link className="text-orange-500" href="#0" aria-label="CTO at Coinsub">
                 CTO at Coinsub
-              </a>
+              </Link>
             </div>
           </div>
         </div>

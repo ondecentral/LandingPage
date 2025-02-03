@@ -1,3 +1,5 @@
+import Link from "@/components/tracked-link";
+
 // export default function CaseStudies() {
 //   return (
 //     <div className="mx-auto py-12 pb-20 max-w-6xl px-4 sm:px-6">
@@ -378,13 +380,14 @@ export default function CaseStudies() {
         {/* </div> */}
       </div>
       <div className="flex justify-center mt-10">
-        <a
+        <Link
           className="btn justify-self-center w-full bg-white text-stone-800 shadow hover:bg-stone-50 sm:ml-4 sm:w-auto"
           href="https://lucia-protocol.notion.site/Lucia-Ad-Attribution-Case-Studies-862e0f534eed441b9478366060a3b22b?pvs=25"
           target="_blank"
+          aria-label="View Case Studies"
         >
           View Case Studies
-        </a>
+        </Link>
       </div>
     </div>
   );
