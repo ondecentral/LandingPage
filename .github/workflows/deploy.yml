@@ -47,11 +47,17 @@ jobs:
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          TEST_API_KEY: ${{ secrets.API_KEY }}
         ports:
           - ${{ vars.NODE_PORT }}:${{ vars.NODE_PORT }}
         credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_PAT_CLASSIC }}
+
+    env:
+      NODE_ENV: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'develop' && 'staging' || 'dev') }}
+      NEXT_PUBLIC_BASE_URL: http://localhost:${{ vars.NODE_PORT }}
+      NEXT_PUBLIC_API_KEY: ${{ secrets.API_KEY }}
 
     steps:
     - name: Checkout code
@@ -60,50 +66,10 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 18
-
-    - name: Wait for PostgreSQL to be ready
-      run: |
-        MAX_RETRIES=4
-        RETRY_COUNT=0
-        while ! pg_isready -h localhost -p 5432; do
-          echo "Waiting for PostgreSQL..."
-          RETRY_COUNT=$((RETRY_COUNT + 1))
-          if [ "$RETRY_COUNT" -ge "$MAX_RETRIES" ]; then
-            echo "PostgreSQL is not ready after $((MAX_RETRIES * 5)) seconds."
-            exit 1
-          fi
-          sleep 5
-        done
-
-    - name: Check backend service accessibility
-      run: |
-        MAX_RETRIES=4
-        RETRY_COUNT=0
-        while ! curl -s 127.0.0.1:${{ vars.NODE_PORT }}; do
-          echo "Waiting for backend service to be accessible..."
-          RETRY_COUNT=$((RETRY_COUNT + 1))
-          if [ "$RETRY_COUNT" -ge "$MAX_RETRIES" ]; then
-            echo "Backend service is not accessible after $((MAX_RETRIES * 5)) seconds."
-            exit 1
-          fi
-          sleep 5
-        done
+        node-version: 20
 
     - name: Install frontend dependencies
       run: npm ci
-
-    - name: Set environment variables
-      id: set_env_vars
-      run: |
-        if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
-          echo "NODE_ENV=production" >> $GITHUB_ENV
-        elif [[ "${GITHUB_REF_NAME}" == "develop" ]]; then
-          echo "NODE_ENV=staging" >> $GITHUB_ENV
-        else
-          echo "NODE_ENV=dev" >> $GITHUB_ENV
-        fi
-        echo "NEXT_PUBLIC_BASE_URL=http://127.0.0.1:${{vars.NODE_PORT}}" >> $GITHUB_ENV
 
     - name: Install Playwright Browsers
       run: |
@@ -113,29 +79,18 @@ jobs:
         fi
         npx playwright install
 
-    - name: Install ts-node
+    - name: Run database seeds
       run: |
-        npm i -D ts-node
+        docker exec ${{ job.services.api.id }} node seeds/index.js
 
     - name: Run authenticate to get token
       run: |
-        TOKEN=$(npx ts-node test/authenticate.ts)
+        TOKEN=$(npx -y ts-node test/authenticate.ts)
         if [ -z "$TOKEN" ]; then
           echo "Failed to generate TOKEN"
           exit 1
         fi
         echo "TOKEN=$TOKEN" >> $GITHUB_ENV
-
-    - name: Run api-key-gen to get api key
-      run: |
-        NEXT_PUBLIC_API_KEY=$(npx ts-node test/api-key-gen.ts)
-        if [ -z "$NEXT_PUBLIC_API_KEY" ]; then
-          echo "Failed to generate API key"
-          exit 1
-        fi
-        echo "NEXT_PUBLIC_API_KEY=$NEXT_PUBLIC_API_KEY" >> $GITHUB_ENV
-      env:
-        TOKEN: ${{ env.TOKEN }}
 
     - name: Build frontend project
       run: |

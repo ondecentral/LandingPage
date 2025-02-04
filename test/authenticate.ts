@@ -1,7 +1,7 @@
 const firstName: string = "tester";
 const lastName: string = "tester";
-const email: string = "techgroup@luciaprotocol.com";
-const password: string = "12345678";
+const email: string = "seeduser@luciaprotocol.com";
+const password: string = process.env.TEST_CLIENT_PASSWORD || "!Password1";
 
 const greenLight: string = "\x1b[32m✔\x1b[0m"; // Green checkmark
 const redLight: string = "\x1b[31m✘\x1b[0m"; // Red cross
@@ -16,18 +16,6 @@ const authenticate = async () => {
     // console.log("Running authenticate...");
     // Signup
     const apiUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/api`;
-    const signupResponse = await fetch(`${apiUrl}/oauth/signup`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ firstName, lastName, email, password }),
-    });
-
-    // console.log("signupResponse", JSON.stringify(signupResponse));
-    if (signupResponse.status !== 201) {
-      console.error(`${redLight} Signup failed`, JSON.stringify(await signupResponse.json()));
-      process.exit(1);
-    }
-    // console.log(`${greenLight} Signup success`);
 
     // Login
     const loginResponse = await fetch(`${apiUrl}/oauth/login`, {
