@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import Button from '@/components/tracked-button';
 
 interface AccordionProps {
   title: string;
@@ -16,7 +17,8 @@ const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
 
   return (
     <div className="border-b border-gray-200">
-      <button
+      <Button
+        aria-label={`Toggle ${title} accordion`}
         onClick={toggleAccordion}
         className="flex justify-between items-center w-full py-4 px-4 text-left focus:outline-none"
       >
@@ -33,13 +35,13 @@ const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
           stroke="currentColor"
         >
           <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
             d="M19 9l-7 7-7-7"
           />
         </svg>
-      </button>
+      </Button>
 
       <div
         className={`transition-all duration-300 ease-in-out overflow-hidden ${

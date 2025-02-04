@@ -1,6 +1,6 @@
-import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/public/images/logo.svg";
+import Link from "@/components/tracked-link";
 
 export default function Footer({ border = false }: { border?: boolean }) {
   return (
@@ -33,6 +33,7 @@ export default function Footer({ border = false }: { border?: boolean }) {
                 <Link
                   className="text-stone-600 transition hover:text-gray-900"
                   href="#0"
+                  aria-label="Features"
                 >
                   Features
                 </Link>
@@ -41,6 +42,7 @@ export default function Footer({ border = false }: { border?: boolean }) {
                 <Link
                   className="text-stone-600 transition hover:text-gray-900"
                   href="#0"
+                  aria-label="Integrations"
                 >
                   Integrations
                 </Link>
@@ -50,6 +52,7 @@ export default function Footer({ border = false }: { border?: boolean }) {
                   className="text-stone-600 transition hover:text-gray-900"
                   href="https://ads.clickinsights.xyz/contact"
                   target="_blank"
+                  aria-label="Request Demo Footer"
                 >
                   Request demo
                 </Link>
@@ -66,6 +69,7 @@ export default function Footer({ border = false }: { border?: boolean }) {
                   className="text-stone-600 transition hover:text-gray-900"
                   href="https://lucia-protocol.medium.com/"
                   target="_blank"
+                  aria-label="Blog"
                 >
                   Blog
                 </Link>
@@ -73,8 +77,9 @@ export default function Footer({ border = false }: { border?: boolean }) {
               <li>
                 <Link
                   className="text-stone-600 transition hover:text-gray-900"
-                  href="https://lucia-protocol.gitbook.io/lucia-protocol/"
+                  href="https://docsend.com/view/ymm3s5mpnrg9m6mu"
                   target="_blank"
+                  aria-label="Whitepaper"
                 >
                   Whitepaper
                 </Link>
@@ -84,6 +89,7 @@ export default function Footer({ border = false }: { border?: boolean }) {
                   className="text-stone-600 transition hover:text-gray-900"
                   href="https://docs.luciaprotocol.com/"
                   target="_blank"
+                  aria-label="Docs"
                 >
                   Docs
                 </Link>
@@ -100,6 +106,7 @@ export default function Footer({ border = false }: { border?: boolean }) {
                   className="text-stone-600 transition hover:text-gray-900"
                   href="https://lucia-protocol.notion.site/Terms-of-Service-1226136c5cc880399dd1c02521aa8226?pvs=25"
                   target="_blank"
+                  aria-label="Terms of service"
                 >
                   Terms of service
                 </Link>
@@ -109,6 +116,7 @@ export default function Footer({ border = false }: { border?: boolean }) {
                   className="text-stone-600 transition hover:text-gray-900"
                   href="https://lucia-protocol.notion.site/Privacy-Policy-1226136c5cc880c4b5dbe12c10042924"
                   target="_blank"
+                  aria-label="Privacy policy"
                 >
                   Privacy policy
                 </Link>
@@ -117,6 +125,7 @@ export default function Footer({ border = false }: { border?: boolean }) {
                 <Link
                   className="text-stone-600 transition hover:text-gray-900"
                   href="#"
+                  aria-label="Opt-out"
                 >
                   Opt-out
                 </Link>

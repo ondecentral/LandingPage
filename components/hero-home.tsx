@@ -3,6 +3,7 @@
 import PageIllustration from "@/components/page-illustration";
 import BusinessCategories from "@/components/business-categories";
 import LogoSection from "@/components/logoSection";
+import Link from "@/components/tracked-link";
 
 import { Suspense, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -32,18 +33,18 @@ export default function HeroHome() {
   const Logo3D = ({ pointer }: { pointer: Pointer }) => {
     const logoRef = useRef<THREE.Group | null>(null); // Define the type of ref to be a THREE.Group
     const { scene } = useGLTF("../models/logo.glb"); // Load your 3D model from the public folder
-  
+
     useFrame(() => {
       if (logoRef.current) {
         // Log pointer values to debug
         console.log("Pointer X (RotatingCube):", pointer.x, "Pointer Y (RotatingCube):", pointer.y);
-  
+
         // Scale up the pointer effect to make rotation more noticeable
         logoRef.current.rotation.y = pointer.x * 0.1; // Increase the multiplier for more rotation
         logoRef.current.rotation.x = pointer.y * 0.1;
       }
     });
-  
+
     return (
       <primitive ref={logoRef} object={scene} scale={0.175} />
     );
@@ -98,7 +99,7 @@ export default function HeroHome() {
         {/* 3D Logo Container */}
         {/* <div className="absolute z-1 h-1/5 w-6/12 left-0 top-20">
           <Spline
-            scene="https://prod.spline.design/jZ9pmRNBxzmrlmYH/scene.splinecode" 
+            scene="https://prod.spline.design/jZ9pmRNBxzmrlmYH/scene.splinecode"
           />
         </div> */}
         <div style={{ position: "relative", zIndex: 2 }}>
@@ -122,7 +123,7 @@ export default function HeroHome() {
                   data-aos="zoom-y-out"
                   data-aos-delay={150}
                 >
-                  Web3 Attribution <br className="max-lg:hidden" />
+                  Web3 Attribution Test <br className="max-lg:hidden" />
                   <span className="font-light">Powered by AI</span>
                 </h1>
                 <div className="mx-auto max-w-3xl">
@@ -140,9 +141,10 @@ export default function HeroHome() {
                       data-aos="zoom-y-out"
                       data-aos-delay={450}
                     >
-                      <a
+                      <Link
                         className="btn group mb-4 w-full bg-gradient-to-r from-orange-400 to-orange-600 bg-[length:100%_100%] bg-[bottom] text-white shadow hover:bg-[length:100%_150%] sm:mb-0 sm:w-auto"
                         href="https://ads.clickinsights.xyz/contact"
+                        aria-label="Request Demo Hero"
                       >
                         <span className="relative inline-flex items-center">
                           Request Demo{" "}
@@ -157,21 +159,22 @@ export default function HeroHome() {
                               <path
                                 d="M9 18L15 12L9 6"
                                 stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               />
                             </svg>
                           </span>
                         </span>
-                      </a>
-                      <a
+                      </Link>
+                      <Link
                         className="btn w-full bg-white text-stone-800 shadow hover:bg-stone-50 sm:ml-4 sm:w-auto"
                         href="https://ads.clickinsights.xyz"
                         target="_blank"
+                        aria-label="Learn More Hero"
                       >
                         Learn More
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -194,62 +197,59 @@ export default function HeroHome() {
                     </span>
                     <br />
                     <span className="animate-[code-1_10s_infinite] text-gray-200">
-                      npm install luciasdk-t3
+                      npm install lucia-sdk
                     </span>
                     <br />
-                    <span className="animate-[code-2_10s_infinite]">
+                    <span className="animate-[code-1_10s_infinite]">
                       Package successfully installed.
                     </span>
                     <br />
                     <br />
-                    <span className="animate-[code-3_10s_infinite] text-gray-400">
+                    <span className="animate-[code-2_10s_infinite] text-gray-400">
                       // app.js
                     </span>
                     <br />
-                    <span className="animate-[code-3_10s_infinite] text-gray-200 flex flex-inline gap-2">
-                      <div className="text-orange-400">import</div>
-                      <div className="text-green-300">'lucia.js'</div>;
-                    </span>
-                    <br />
-                    <br />
-                    <span className="animate-[code-4_10s_infinite] text-gray-400">
-                      // page.js
-                    </span>
-                    <br />
-                    <span className="animate-[code-4_10s_infinite] text-gray-200 flex flex-inline gap-2">
-                      <div className="text-orange-400">import</div> LuciaSDK
+                    <span className="animate-[code-2_10s_infinite] text-gray-200 flex flex-inline gap-2">
+                       <div className="text-orange-400">import</div> LuciaSDK
                       <div className="text-orange-400">from</div>
-                      <div className="text-green-300">'lucia-t3'</div>;
+                      <div className="text-green-300">'lucia-sdk'</div>;
                     </span>
-                    <br />
-                    <span className="animate-[code-5_10s_infinite] text-gray-200 flex flex-inline">
+                    <span className="animate-[code-3_10s_infinite] text-gray-200 flex flex-inline">
                       {"LuciaSDK"}
                       <div className="text-orange-400">.</div>
                       <div className="text-orange-300">init</div>
                       <div className="text-yellow-400">{"("}</div>
                       <div className="text-purple-400">{"{"}</div>
                     </span>
-                    <br />
-                    <span className="animate-[code-6_10s_infinite] text-gray-200 flex flex-inline gap-2">
-                      baseURL:
-                      <div className="text-green-300">
-                        'https://api.clickinsights.xyz'
-                      </div>
-                      ,
+                    <span className="animate-[code-4_10s_infinite]">
+                      &nbsp;// Get your API Key from https://ads.clickinsights.xyz
                     </span>
                     <br />
-                    <span className="animate-[code-6_10s_infinite]">
-                      // Get your API Key from https://ads.clickinsights.xyz
-                    </span>
-                    <br />
-                    <span className="animate-[code-6_10s_infinite] text-gray-200 flex flex-inline gap-2">
-                      api_key:
+                    <span className="animate-[code-4_10s_infinite] text-gray-200 flex flex-inline gap-2">
+                      &nbsp;apiKey:
                       <div className="text-green-300">'your-api-here'</div>,
                     </span>
-                    <br />
-                    <span className="animate-[code-5_10s_infinite] text-gray-200 flex flex-inline">
+                    <span className="animate-[code-3_10s_infinite] text-gray-200 flex flex-inline">
                       <div className="text-purple-400">{"}"}</div>
                       <div className="text-yellow-400">{")"}</div>;
+                    </span>
+                    <br />
+                    <span className="animate-[code-5_10s_infinite] text-gray-400">
+                      // page.js
+                    </span>
+                    <br />
+                    <span className="animate-[code-5_10s_infinite] text-gray-200 flex flex-inline gap-2">
+                      <div className="text-orange-400">import</div> LuciaSDK
+                      <div className="text-orange-400">from</div>
+                      <div className="text-green-300">'lucia-sdk'</div>;
+                    </span>
+                    <span className="animate-[code-6_10s_infinite] text-gray-200 flex flex-inline">
+                      {"LuciaSDK"}
+                      <div className="text-orange-400">.</div>
+                      <div className="text-orange-300">pageView</div>
+                      <div className="text-yellow-400">{"("}</div>
+                      <div className="text-green-300">'your-page-here'</div>
+                      <div className="text-yellow-400">{")"}</div>
                     </span>
                   </div>
                 </div>

@@ -1,6 +1,8 @@
-import "./css/style.css";
+"use client";
 
+import "./css/style.css";
 import { DM_Sans } from "next/font/google";
+import LuciaSDK from "lucia-sdk";
 
 const dm_sans = DM_Sans({
   subsets: ["latin"],
@@ -8,10 +10,12 @@ const dm_sans = DM_Sans({
   display: "swap",
 });
 
-export const metadata = {
-  title: "Home – Lucia Protocol",
-  description: "Web2 & Web3 Ad Attribution Platform",
-};
+if (typeof window !== 'undefined') {
+  LuciaSDK.init({
+    debugURL: process.env.NEXT_PUBLIC_BASE_URL || "",
+    apiKey: process.env.NEXT_PUBLIC_API_KEY || "",
+  });
+}
 
 export default function RootLayout({
   children,
