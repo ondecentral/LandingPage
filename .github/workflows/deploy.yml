@@ -13,7 +13,7 @@ permissions:
 jobs:
   bot-test:
     runs-on: ubuntu-latest
-    environment: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
+    environment: test
 
     services:
       postgres:
@@ -55,7 +55,7 @@ jobs:
           password: ${{ secrets.GH_PAT_CLASSIC }}
 
     env:
-      NODE_ENV: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'develop' && 'staging' || 'dev') }}
+      NODE_ENV: test
       NEXT_PUBLIC_BASE_URL: http://localhost:${{ vars.NODE_PORT }}
       NEXT_PUBLIC_API_KEY: ${{ secrets.API_KEY }}
 
@@ -69,8 +69,7 @@ jobs:
         node-version: 20
 
     - name: Install frontend dependencies
-      run: |
-        NODE_ENV=test npm ci --include=dev
+      run: npm ci
 
     - name: Install Playwright Browsers
       run: |
@@ -98,6 +97,8 @@ jobs:
     - name: Build frontend project
       run: |
         npm run build
+      env:
+        NODE_ENV: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'develop' && 'staging' || 'dev') }}
 
     - name: Run bot-test
       run: |
@@ -125,7 +126,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 20
 
     - name: Install frontend dependencies
       run: npm ci
