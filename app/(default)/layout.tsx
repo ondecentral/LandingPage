@@ -8,6 +8,8 @@ import "aos/dist/aos.css";
 
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
+import TwitterPixel from "@/components/TwitterPixel";
+import { trackTwitterConversion } from "@/utils/twitter-tracking";
 
 export default function DefaultLayout({
   children,
@@ -24,10 +26,13 @@ export default function DefaultLayout({
 
     // Track a page view
     LuciaSDK.pageView(window.location.pathname);
+    // Track Twitter conversion
+    trackTwitterConversion();
   }, []);
 
   return (
     <>
+      <TwitterPixel />
       <Header />
 
       <main className="grow">{children}</main>
