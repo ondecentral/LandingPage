@@ -3,6 +3,7 @@
 import "./css/style.css";
 import { DM_Sans } from "next/font/google";
 import LuciaSDK from "lucia-sdk";
+import TwitterScript from '@/components/TwitterScript';
 
 const dm_sans = DM_Sans({
   subsets: ["latin"],
@@ -24,6 +25,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <TwitterScript />
+      </head>
       <body
         className={`${dm_sans.variable} bg-stone-50 font-dm_sans tracking-tight text-stone-900 antialiased`}
       >
